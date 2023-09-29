@@ -1,0 +1,34 @@
+<div class="container mx-auto">
+  <div class="flex justify-between mt-3 mb-3">
+    <div class="flex-grow">
+      <h1 class="text-3xl font-bold">
+        {{title}}
+      </h1>
+    </div>
+    <div class="flex text-end items-center">
+      <span class="bg-green-500 text-white py-1 px-3 rounded-full">Login</span>
+    </div>
+  </div>
+  <hr class="my-4" />
+  <div class="flex">
+    <div class="w-1/5">
+      <nav>
+        <div class="border rounded divide-y divide-solid">
+          <a href="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Home</a>
+          <a href="/plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Plants</a>
+          <a href="/family" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Family</a>
+
+          <a href="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Add/Edit Plants</a>
+          <a href="/manage-plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Manage Plants</a>
+          <a href="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">GraphQL</a>
+
+        </div>
+      </nav>
+    </div>
+    <div class='w-full mx-4'>
+      <div class="mx-auto w-full flex justify-center">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

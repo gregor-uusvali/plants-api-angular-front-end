@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#myImage{
+    transition: 2s;
+  }
+  
+  #myImage:hover{
+    filter: invert(1);
+    cursor: pointer;
+  
+  }
