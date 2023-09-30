@@ -9,6 +9,15 @@ import { FamilyComponent } from './family/family.component';
 import { AddEditComponent } from './add-edit/add-edit.component';
 import { ManagePlantsComponent } from './manage-plants/manage-plants.component';
 import { GraphqlComponent } from './graphql/graphql.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { PlantComponent } from './plant/plant.component';
+import { ErrorpageComponent } from './errorpage/errorpage.component';
+import { AlertComponent } from './alert/alert.component';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import {CookieService} from 'ngx-cookie-service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -18,13 +27,21 @@ import { GraphqlComponent } from './graphql/graphql.component';
     FamilyComponent,
     AddEditComponent,
     ManagePlantsComponent,
-    GraphqlComponent
+    GraphqlComponent,
+    LoginComponent,
+    RegisterComponent,
+    PlantComponent,
+    ErrorpageComponent,
+    AlertComponent,
+    ConfirmationModalComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
