@@ -7,14 +7,17 @@ import { Component, Input } from '@angular/core';
 })
 export class AlertComponent {
   @Input() message: string = '';
-  @Input() class: string = '';
-  @Input() type: string = 'error';
+  @Input() type: string = '';
+  @Input() className: string = '';
 
-  get alertClass(): string {
-    return `flex items-center p-4 mb-4 text-sm ${this.type === 'error' ? 'text-red-800' : 'text-green-800'} rounded-lg ${this.type === 'error' ? 'bg-red-50' : 'bg-green-50'} dark:bg-gray-800 dark:text-${this.type === 'error' ? 'red-400' : 'green-400'} ${this.class}`;
-  }
-
-  get messageClass(): string {
-    return `font-medium ${this.type === 'error' ? 'text-red-800' : 'text-green-800'}`;
+  get alertClasses(): string {
+    if (this.type === 'error') {
+      return 'alert flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400';
+    } else if (this.type === 'success') {
+      return 'alert flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400';
+    } else {
+      return 'alert'; // Default class when type is not recognized
+    }
   }
 }
+

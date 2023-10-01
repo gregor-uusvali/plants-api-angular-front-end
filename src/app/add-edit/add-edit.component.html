@@ -6,7 +6,7 @@
       <div class="flip-card" (click)="doTheFlip($event)">
         <div class="flip-card-inner">
           <div
-            class="flip-card-front card bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 flex items-center justify-center transition duration-300">
+            class="flip-card-front card first-card bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 flex items-center justify-center transition duration-300">
             <svg class="svg-icon w-20 h-20 text-gray-700 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
               fill="none" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="1" fill="none" />
@@ -51,16 +51,55 @@
           </div>
         </div>
       </div>
-      <div *ngFor="let plant of plants" class="flip-card" (click)="doTheFlip(plant.id)">
+      <div *ngFor="let plant of plants" class="flip-card" (click)="doTheFlip($event, plant.id)">
         <div class="flip-card-inner">
           <div
-            class="flip-card-front card bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 flex items-center justify-center transition duration-300">
-            <img className="h-4/5 w-full rounded-t-lg object-cover" [src]="plant.image" alt="plant-image" />
-            <div className="px-5 py-2">
-              <h5 className="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{plant.name}}</h5>
+            class="flip-card-front flex-col card bg-gray-700 hover:bg-gray-600 border-gray-200 rounded-lg shadow dark:border-gray-700 flex items-center justify-center transition duration-300">
+            <img class="-mt-10 h-4/5 w-full rounded-t-lg object-cover" [src]="plant.image" alt="plant-image" />
+            <div class="mt-1 px-5 py-2">
+              <h5 class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{plant.name}}</h5>
             </div>
           </div>
           <div class="flip-card-back">
+            <form [formGroup]="plantForm" (ngSubmit)="handleAdd($event)" enctype="multipart/form-data" class="mx-auto">
+              <div class="mt-2">
+                <label for="name" class="block text-gray-700 text-sm font-bold mb-1">Name</label>
+                <input name="name" type="text"
+                  class="w-4/5 shadow appearance-none border rounded py-1 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  autoComplete="name-new" formControlName="name" [value]=plantName>
+              </div>
+              <div class="mx-8">
+                <label for="description" class="block text-gray-700 text-sm font-bold mb-1">Description</label>
+                <textarea name="description" title="Description" id="message" rows={3}
+                  class="block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg shadow appearance-none mb-3"
+                  autoComplete="description-new" formControlName="description" [value]=plantDescription></textarea>
+              </div>
+              <div class="mx-8">
+                <label for="instruction" class="block text-gray-700 text-sm font-bold mb-1">Instruction</label>
+                <textarea name="instruction" title="Instruction" id="message" rows={3}
+                  class="block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg shadow appearance-none mb-3"
+                  autoComplete="instruction-new" formControlName="instruction" [value]=plantInstruction></textarea>
+              </div>
+              <div class="-m-1">
+                <label for="image" class="block text-gray-700 text-sm font-bold mb-1">Image</label>
+                <input class="inputFileClass" type="file" name="image" formControlName="image"
+                  (change)="handleFileChange($event)" />
+              </div>
+              <div class="flex items-center justify-center gap-5 mt-5">
+                <input
+                  class="text-sm hover:cursor-pointer bg-gray-500 hover:bg-gray-700 text-white  py-2 px-3 rounded focus:outline-none focus:shadow-outline"
+                  type="button" (click)="removeTheFlip($event)" value="Back" />
+                <input
+                  class="text-sm hover:cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 px-3 rounded focus:outline-none focus:shadow-outline"
+                  type="button" (click)="handleUpdate($event)" value="Edit" />
+                <input
+                  class="text-sm hover:cursor-pointer bg-red-500 hover:bg-red-700 text-white py-2 px-3 rounded focus:outline-none focus:shadow-outline"
+                  type="button" (click)="openConfirmationModal()" value="Delete" />
+                <app-confirmation-modal [isOpen]="isConfirmationModalOpen" (onCancel)="onCancel()"
+                  (onConfirm)="onConfirm()"></app-confirmation-modal>
+              </div>
+
+            </form>
           </div>
         </div>
       </div>

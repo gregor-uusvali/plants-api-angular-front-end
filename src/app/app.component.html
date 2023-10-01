@@ -5,28 +5,35 @@
         {{title}}
       </h1>
     </div>
-    <div class="flex text-end items-center">
-      <a href="login"><span class="bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-400">Login</span></a>
+    <div *ngIf="sessionService.sessionToken === ''; else loggedInBlock" class="flex text-end items-center">
+      <a routerLink="login"><span class="bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-600">Login</span></a>
     </div>
+    <ng-template #loggedInBlock>
+      <p class="mr-4">Hello {{ sessionService.firstName }} {{ sessionService.lastName }}!</p>
+      <a href="#" (click)="logOut()">
+        <span class="bg-red-500 text-white py-1 px-3 rounded-full">Logout</span>
+      </a>
+    </ng-template>
   </div>
   <hr class="my-4" />
   <div class="flex">
     <div class="w-1/5">
       <nav>
         <div class="border rounded divide-y divide-solid">
-          <a href="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Home</a>
-          <a href="/plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Plants</a>
-          <a href="/family" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Family</a>
+          <a routerLink="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Home</a>
+          <a routerLink="/plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Plants</a>
+          <a routerLink="/family" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Family</a>
 
-          <a href="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Add/Edit Plants</a>
-          <a href="/manage-plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Manage Plants</a>
-          <a href="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">GraphQL</a>
+          <a routerLink="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Add/Edit Plants</a>
+          <a routerLink="/manage-plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Manage Plants</a>
+          <a routerLink="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">GraphQL</a>
 
         </div>
       </nav>
     </div>
-    <div class='w-full mx-4'>
-      <div class="mx-auto w-full flex justify-center">
+    <div class='w-4/5'>
+      <app-alert [message]="alertService.alertMessage" [type]="alertService.alertType" [class]="alertService.alertClass"></app-alert>
+      <div class="mx-4 w-full">
         <router-outlet></router-outlet>
       </div>
     </div>

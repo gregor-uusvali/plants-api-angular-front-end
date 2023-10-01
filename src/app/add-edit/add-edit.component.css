@@ -40,15 +40,16 @@
     backface-visibility: hidden;
 }
 .flip-card-front {
-    background-color: white;
+    /* background-color: white; */
     color: black;
     border-radius: 0.5rem;
     height: 450px;
 }
-.flip-card-front:hover {
+.first-card:hover {
     background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 
 }
+
 .flip-card-back {
     background-color: #22c55e;
     color: white;

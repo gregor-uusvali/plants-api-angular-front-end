@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-errorpage',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./errorpage.component.css']
 })
 export class ErrorpageComponent {
+  error: any;
 
+  constructor(private route: ActivatedRoute){
+    this.error = this.route.snapshot.data['error'] || {message: 'An unexpected error occurred'}
+  }
 }
