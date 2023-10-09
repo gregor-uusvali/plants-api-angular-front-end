@@ -33,7 +33,6 @@ export class AppComponent {
     this.cookieService.delete('session_token');
     this.router.navigate(['/login']);
   }
-
   fetchUserByCookie = (cookie: string) => {
     fetch(`http://localhost:8080/api/v1/profile/0?sessionToken=${cookie}`, {
       method: "GET",

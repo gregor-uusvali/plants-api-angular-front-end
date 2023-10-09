@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="flip-card-back">
-            <form [formGroup]="plantForm" (ngSubmit)="handleAdd($event)" enctype="multipart/form-data" class="mx-auto">
+            <form [formGroup]="plantForm" (ngSubmit)="handleUpdate($event)" enctype="multipart/form-data" class="mx-auto">
               <div class="mt-2">
                 <label for="name" class="block text-gray-700 text-sm font-bold mb-1">Name</label>
                 <input name="name" type="text"
@@ -96,7 +96,7 @@
                   class="text-sm hover:cursor-pointer bg-red-500 hover:bg-red-700 text-white py-2 px-3 rounded focus:outline-none focus:shadow-outline"
                   type="button" (click)="openConfirmationModal()" value="Delete" />
                 <app-confirmation-modal [isOpen]="isConfirmationModalOpen" (onCancel)="onCancel()"
-                  (onConfirm)="onConfirm()"></app-confirmation-modal>
+                  (onConfirm)="onConfirm($event)"></app-confirmation-modal>
               </div>
 
             </form>

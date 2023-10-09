@@ -8,7 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class ConfirmationModalComponent {
   @Input() isOpen: boolean = false;
   @Output() onCancel: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onConfirm: EventEmitter<Event> = new EventEmitter<Event>();
 
   cancel(): void {
     this.onCancel.emit();

@@ -49,8 +49,11 @@ export class AddEditComponent {
     // Handle cancellation logic if needed
   }
 
-  onConfirm(): void {
+  onConfirm(e: Event): void {
+
+    console.log(e)
     this.isConfirmationModalOpen = false;
+    this.handleDelete()
     // Handle confirmation logic if needed
   }
 
@@ -144,6 +147,7 @@ export class AddEditComponent {
       .then((response) => response.json())
       .then((data) => {
         this.plants = data
+        console.log(this.plants)
       })
       .catch(err => {
         console.log(err)
@@ -177,7 +181,7 @@ export class AddEditComponent {
         fetch("http://localhost:8080/api/v1/plants/add", requestOptions)
           .then(async (response) => {
             if (response.ok) {
-              const data = await response.json();
+              // const data = await response.json();
               this.addInfo("New plant added!", "success");
               this.removeTheFlip(e);
               this.plantId = 0
@@ -202,8 +206,8 @@ export class AddEditComponent {
   }
 
 
-  handleDelete = (e: any) => {
-    e.preventDefault();
+  handleDelete = () => {
+    // e.preventDefault();
     console.log("Deleting plant with id: ", this.plantId)
     const requestOptions = {
       method: "DELETE",
@@ -215,7 +219,7 @@ export class AddEditComponent {
       .then(async (response) => {
         if (response.ok) {
           this.addInfo("Plant deleted!", "success")
-          this.removeTheFlip(e);
+          // this.removeTheFlip(e);
           this.plantId = 0
           this.plantName = ""
           this.plantDescription = ""
