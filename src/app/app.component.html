@@ -23,10 +23,11 @@
           <a routerLink="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Home</a>
           <a routerLink="/plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Plants</a>
           <a routerLink="/family" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Family</a>
-
-          <a routerLink="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Add/Edit Plants</a>
-          <a routerLink="/manage-plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Manage Plants</a>
-          <a routerLink="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">GraphQL</a>
+          <div *ngIf="sessionService.sessionToken !== ''">
+            <a routerLink="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Add/Edit Plants</a>
+            <a routerLink="/manage-plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Manage Plants</a>
+            <a routerLink="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">GraphQL</a>
+          </div>
 
         </div>
       </nav>

@@ -9,7 +9,7 @@ import { AlertService } from '../alert.service';
   styleUrls: ['./add-edit.component.css']
 })
 export class AddEditComponent {
-  selectedFile: File | null = null;
+  selectedFile: File | "" = "";
   plants: PlantType[] = []; // Define and initialize the 'plants' property
   activePlantId: number | null = null
   clicked: boolean = false
@@ -64,21 +64,29 @@ export class AddEditComponent {
     }, 4000)
   }
   setInitialVals = (plantId: number) => {
-    for (let i = 0; i < this.plants.length; i++) {
-      if (this.plants[i].id === plantId) {
-        this.plantId = plantId
-        this.plantName = this.plants[i].name
-        this.plantDescription = this.plants[i].description
-        this.plantInstruction = this.plants[i].instruction
-        this.selectedFile = null
-        break
+    if(!this.clicked){
+
+      for (let i = 0; i < this.plants.length; i++) {
+        if (this.plants[i].id === plantId) {
+          console.log("plant found with id: ", this.plants[i].id)
+          this.plantId = plantId
+          this.plantName = this.plants[i].name
+          this.plantDescription = this.plants[i].description
+          this.plantInstruction = this.plants[i].instruction
+          this.selectedFile = ""
+          break
+        }
       }
     }
   }
 
 
   doTheFlip(e: any, plantId: number | null = null): void {
+    if(this.activePlantId !== plantId){
+      this.clicked = false
+    }
     this.activePlantId = plantId
+    console.log(this.activePlantId)
     if (!this.clicked) {
       if (plantId !== null) {
         this.setInitialVals(plantId)
@@ -87,7 +95,7 @@ export class AddEditComponent {
         this.plantName = ""
         this.plantDescription = ""
         this.plantInstruction = ""
-        this.selectedFile = null
+        this.selectedFile = ""
       }
       const elementsWithClass = document.querySelectorAll('.do-the-flip');
       elementsWithClass.forEach((element) => {
@@ -110,7 +118,7 @@ export class AddEditComponent {
         this.plantName = ""
         this.plantDescription = ""
         this.plantInstruction = ""
-        this.selectedFile = null
+        this.selectedFile = ""
       }
       const elementsWithClass = document.querySelectorAll('.do-the-flip');
       elementsWithClass.forEach((element) => {
@@ -188,7 +196,7 @@ export class AddEditComponent {
               this.plantName = ""
               this.plantDescription = ""
               this.plantInstruction = ""
-              this.selectedFile = null
+              this.selectedFile = ""
               this.getPlants();
             } else {
               const errorText = await response.text();
@@ -224,7 +232,8 @@ export class AddEditComponent {
           this.plantName = ""
           this.plantDescription = ""
           this.plantInstruction = ""
-          this.selectedFile = null
+          this.selectedFile = ""
+          this.clearInputFile()
           this.getPlants();
         } else {
           const errorText = await response.text();
@@ -248,7 +257,7 @@ export class AddEditComponent {
       formData.append("description", updatedDescription);
       formData.append("instruction", updatedInstruction);
       console.log(updatedName)
-      if (this.selectedFile) {
+      if (this.selectedFile !== "") {
         const updatedImage = this.selectedFile;
         formData.append("image", updatedImage);
       }
@@ -256,17 +265,18 @@ export class AddEditComponent {
         method: "PUT",
         body: formData,
       };
-
+      console.log(this.plantId)
       fetch(`http://localhost:8080/api/v1/plants/${this.plantId}`, requestOptions)
         .then(async (response) => {
           if (response.ok) {
             this.addInfo("Plant edited!", "success")
+
             this.removeTheFlip(e);
             this.plantId = 0
             this.plantName = ""
             this.plantDescription = ""
             this.plantInstruction = ""
-            this.selectedFile = null
+            this.selectedFile = ""
             this.getPlants();
           } else {
             const errorText = await response.text();
@@ -283,11 +293,32 @@ export class AddEditComponent {
   };
 
   handleFileChange = (e: any) => {
+    console.log(e)
     const target = e.target as HTMLInputElement & {
       files: FileList;
     }
-    this.plantForm.value.image = target.files[0]
-    console.log('target', target.files)
+    if (target.files.length > 0) {
+      this.plantForm.value.image = target.files[0]
+      this.selectedFile = target.files[0]
+    } else {
+      this.plantForm.value.image = ""
+    }
+    console.log('target', this.plantForm.value.image)
+  }
+
+  handleNameChange = (e: any) => {
+    const target = e.target as HTMLInputElement
+    this.plantName = target.value
+    console.log(this.plantName)
+  }
+  handleDescriptionChange = (e: any) => {
+    const target = e.target as HTMLInputElement
+    this.plantDescription = target.value
+  }
+  handleInstructionChange = (e: any) => {
+    const target = e.target as HTMLInputElement
+    this.plantInstruction = target.value
+
   }
   clearInputFile = () => {
     const inputs = document.querySelectorAll<HTMLInputElement>(".inputFileClass");

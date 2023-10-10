@@ -61,6 +61,8 @@ export class AppComponent {
       this.sessionService.sessionToken = cookie
       this.sessionService.isAuthenticated = true
       this.fetchUserByCookie(cookie)
+    } else {
+      console.log("Not logged in")
     }
   }
 }

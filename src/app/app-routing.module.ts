@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
+import { SessionService } from './session.service';
 
 const routes: Routes = [
 
