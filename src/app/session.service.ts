@@ -10,6 +10,13 @@ export class SessionService {
   firstName: string = "";
   lastName: string = "";
 
+  async getCurrentUserId(): Promise<number> {
+    // You can implement logic here to fetch the user ID if needed
+    // For example, you can fetch it from local storage or a cookie
+    // In this example, we'll just return the current value
+    return this.currentUserId;
+  }
+
   setSession(userId: number, token: string, isAuth: boolean, fName: string, lName: string){
     this.currentUserId = userId
     this.sessionToken = token

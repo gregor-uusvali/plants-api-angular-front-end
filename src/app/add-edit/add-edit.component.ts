@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { PlantType } from '../models/plant.models';
 import { AlertService } from '../alert.service';
 import { SessionService } from '../session.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-add-edit',
@@ -19,6 +20,7 @@ export class AddEditComponent {
   plantDescription: string = ""
   plantInstruction: string = ""
   isConfirmationModalOpen: boolean = false;
+  currentUserId: number = this.sessionService.currentUserId
 
 
   plantForm = this.formBuilder.group({
@@ -32,6 +34,7 @@ export class AddEditComponent {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     public sessionService: SessionService,
+    public cookieService: CookieService
   ) { }
 
 
@@ -88,7 +91,6 @@ export class AddEditComponent {
       this.clicked = false
     }
     this.activePlantId = plantId
-    console.log(this.activePlantId)
     if (!this.clicked) {
       if (plantId !== null) {
         this.setInitialVals(plantId)
@@ -154,7 +156,8 @@ export class AddEditComponent {
       headers: headers,
 
     }
-    fetch(`http://localhost:8080/api/v1/plants`, requestOptions)
+    const cookie = this.cookieService.get("session_token");
+    fetch(`http://localhost:8080/api/v1/plants/user/${cookie}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         this.plants = data
