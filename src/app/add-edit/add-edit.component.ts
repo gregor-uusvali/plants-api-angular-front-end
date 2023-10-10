@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { PlantType } from '../models/plant.models';
 import { AlertService } from '../alert.service';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-add-edit',
@@ -30,6 +31,7 @@ export class AddEditComponent {
   constructor(
     private formBuilder: FormBuilder,
     private alertService: AlertService,
+    public sessionService: SessionService,
   ) { }
 
 
@@ -150,6 +152,7 @@ export class AddEditComponent {
     const requestOptions = {
       method: "GET",
       headers: headers,
+
     }
     fetch(`http://localhost:8080/api/v1/plants`, requestOptions)
       .then((response) => response.json())
@@ -181,6 +184,7 @@ export class AddEditComponent {
         }
         formData.append("instruction", instruction);
         formData.append("date", currentDate.toISOString().substring(0, 10));
+        formData.append("userId", this.sessionService.currentUserId.toString())
         console.log(formData)
         const requestOptions = {
           method: "POST",

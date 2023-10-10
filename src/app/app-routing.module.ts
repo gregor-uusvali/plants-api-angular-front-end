@@ -13,6 +13,7 @@ import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { SessionService } from './session.service';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
 
@@ -20,9 +21,9 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'plants', component: PlantsComponent },
   { path: 'family', component: FamilyComponent },
-  { path: 'add-edit', component: AddEditComponent },
-  { path: 'manage-plants', component: ManagePlantsComponent },
-  { path: 'graphql', component: GraphqlComponent },
+  { path: 'add-edit', component: AddEditComponent, canActivate: [AuthGuard] },
+  { path: 'manage-plants', component: ManagePlantsComponent, canActivate: [AuthGuard] },
+  { path: 'graphql', component: GraphqlComponent, canActivate: [AuthGuard] },
   { path: 'plant/:id', component: PlantComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

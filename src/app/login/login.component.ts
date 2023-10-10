@@ -38,7 +38,7 @@ export class LoginComponent {
     const email = this.loginForm.value.email
     const password = this.loginForm.value.password
     e.preventDefault()
-    if (email !== '' || password !== '') {
+    if (email !== '' && password !== '') {
       const payload = {
         email: email,
         password: password
@@ -80,6 +80,5 @@ export class LoginComponent {
     } else {
       this.addInfo('No empty fields', 'error');
     }
-    console.log('Your order has been submitted', this.loginForm.value);
   }
 }

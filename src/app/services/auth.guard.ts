@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
       return true; // Allow access if there is a session token
     } else {
       // Redirect to a login page or another route if there is no session token
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       return false;
     }
   }

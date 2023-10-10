@@ -31,7 +31,7 @@ export class AppComponent {
     })
     this.sessionService.setSession(0, "", false, "", "")
     this.cookieService.delete('session_token');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
   fetchUserByCookie = (cookie: string) => {
     fetch(`http://localhost:8080/api/v1/profile/0?sessionToken=${cookie}`, {
@@ -41,7 +41,6 @@ export class AppComponent {
       .then(async (response) => {
         if (response.ok) {
           const data = await response.json();
-          console.log(data)
           this.sessionService.setSession(
             data.id,
             cookie,
