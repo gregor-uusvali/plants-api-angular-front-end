@@ -3,7 +3,17 @@
     overflow: hidden;
     background-color: rgba(0, 155, 255, 0.7);
 }
-
+.shim-yellow {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(251, 255, 0, 0.7);
+}
+.shim-red {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 70, 0, 0.7);
+}
+/* 
 .shim-blue::after {
     position: absolute;
     top: 0;
@@ -17,4 +27,4 @@
             rgba(255, 70, 0, 0.7) 100%);
     animation: shimmer 2.5s ease-out infinite;
     content: "";
-}
+} */

@@ -18,10 +18,35 @@
       </div>
       <div>Last time watered {{ lastWatered | date: 'dd/MM/yyyy' }}</div>
       <div>Next time to water {{ nextDateToWater | date: 'dd/MM/yyyy' }}</div>
-      <div>Days left to water {{ (daysLeftToWater) | number: '1.1-1' }}</div>
-      <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
-        <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-blue"></div>
+      <div *ngIf="daysLeftToWater > 0">
+        <div>Days left to water {{ (daysLeftToWater) | number: '1.1-1' }}</div>
       </div>
+      <div *ngIf="daysLeftToWater <= 0">
+        <div>Days passed watering date {{ (daysLeftToWater*-1)  | number: '1.1-1' }} 😬 Oh-ou! </div>
+      </div>
+      <div *ngIf="(daysLeftToWater/daysToWater)*100 > 50">
+        <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
+          <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-blue"></div>
+        </div>
+      </div>
+      <div *ngIf="(daysLeftToWater/daysToWater)*100 > 25 && (daysLeftToWater/daysToWater)*100 < 50">
+        <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
+          <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-yellow"></div>
+        </div>
+      </div>
+      <div *ngIf="(daysLeftToWater/daysToWater)*100 > 0 && (daysLeftToWater/daysToWater)*100 < 25">
+        <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
+          <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-red"></div>
+        </div>
+      </div>
+      <div *ngIf="(daysLeftToWater/daysToWater)*100 < 0">
+        <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
+          <div [style.width.%]="0" class="absolute top-0 h-4 rounded shim-blue"></div>
+        </div>
+      </div>
+      <!-- <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
+        <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-blue"></div>
+      </div> -->
       <form (ngSubmit)="handleUpdateWatering($event)" class="mx-auto mt-4">
         <button type="submit"
           class="hover:cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
