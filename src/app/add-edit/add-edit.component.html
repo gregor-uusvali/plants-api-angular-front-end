@@ -34,7 +34,7 @@
                   class="block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg shadow appearance-none mb-3"
                   autoComplete="instruction-new" formControlName="instruction"></textarea>
               </div>
-              <div class="-m-1">
+              <div class="-my-1 ml-10">
                 <label for="image" class="block text-gray-700 text-sm font-bold mb-1">Image</label>
                 <input class="inputFileClass" type="file" name="image"
                   (change)="handleFileChange($event)" />
@@ -80,7 +80,7 @@
                   class="block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg shadow appearance-none mb-3"
                   autoComplete="instruction-new" formControlName="instruction" [value]=plantInstruction (input)="handleInstructionChange($event)"></textarea>
               </div>
-              <div class="-m-1">
+              <div class="-my-1 ml-10">
                 <label for="image" class="block text-gray-700 text-sm font-bold mb-1">Image</label>
                 <input class="inputFileClass" type="file" name="image"
                   (input)="handleFileChange($event)" />

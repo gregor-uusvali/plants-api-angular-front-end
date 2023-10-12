@@ -17,7 +17,7 @@
   </div>
   <hr class="my-4" />
   <div class="flex">
-    <div class="w-1/5">
+    <div class="w-1/12 min-w-min">
       <nav>
         <div class="border rounded divide-y divide-solid">
           <a routerLink="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Home</a>
@@ -32,7 +32,7 @@
         </div>
       </nav>
     </div>
-    <div class='w-4/5'>
+    <div class='w-11/12'>
       <app-alert [message]="alertService.alertMessage" [type]="alertService.alertType" [class]="alertService.alertClass"></app-alert>
       <div class="mx-4 w-full">
         <router-outlet></router-outlet>
