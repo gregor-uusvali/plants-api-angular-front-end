@@ -41,6 +41,7 @@ export class AppComponent {
       .then(async (response) => {
         if (response.ok) {
           const data = await response.json();
+          console.log(data)
           this.sessionService.setSession(
             data.id,
             cookie,

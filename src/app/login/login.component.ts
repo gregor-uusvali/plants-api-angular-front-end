@@ -57,7 +57,11 @@ export class LoginComponent {
         .then(async (response) => {
           if (response.ok) {
             const data = await response.json();
-            this.cookieService.set('session_token', data.sessionToken);
+            // Set a persistent cookie with an expiration date (e.g., 30 days)
+            const expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 30);
+            this.cookieService.set('session_token', data.sessionToken, expirationDate);
+            
             this.sessionService.setSession(
               parseInt(data.userId, 10),
               data.sessionToken,

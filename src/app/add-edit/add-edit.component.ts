@@ -277,7 +277,6 @@ export class AddEditComponent {
         .then(async (response) => {
           if (response.ok) {
             this.addInfo("Plant edited!", "success")
-
             this.removeTheFlip(e);
             this.plantId = 0
             this.plantName = ""
