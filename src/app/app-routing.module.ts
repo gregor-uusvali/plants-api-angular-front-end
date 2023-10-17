@@ -9,6 +9,7 @@ import { GraphqlComponent } from './graphql/graphql.component';
 import { PlantComponent } from './plant/plant.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { UserProfileComponent } from './user-profile/user-profile.component'
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'plant/:id', component: PlantComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'user/:id', component: UserProfileComponent },
 
 
   { path: 'error', component: ErrorpageComponent },

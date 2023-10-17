@@ -17,6 +17,7 @@ import { AlertComponent } from './alert/alert.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import {CookieService} from 'ngx-cookie-service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 
@@ -35,6 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ErrorpageComponent,
     AlertComponent,
     ConfirmationModalComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
