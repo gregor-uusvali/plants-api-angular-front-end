@@ -7,13 +7,3 @@
 * {
     font-family: 'Ubuntu', sans-serif;
 }
-
-#myImage{
-    transition: 2s;
-  }
-  
-  #myImage:hover{
-    filter: invert(1);
-    cursor: pointer;
-  
-  }

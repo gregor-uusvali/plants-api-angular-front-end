@@ -1,39 +1,53 @@
 <div class="container mx-auto">
-  <div class="flex justify-between mt-3 mb-3">
+  <div class="flex justify-between mt-3 mb-2">
     <div class="flex-grow">
       <h1 class="text-3xl font-bold">
         {{title}}
       </h1>
     </div>
     <div *ngIf="sessionService.sessionToken === ''; else loggedInBlock" class="flex text-end items-center">
-      <a routerLink="login"><span class="bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-600">Login</span></a>
+      <!-- <a routerLink="login"><span class="bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-600">Login</span></a> -->
+      <div class="px-4 py-6 text-lg border-r-2 border-gray-200 mr-1"></div>
+      <a routerLink="login">
+        <div class="px-4 py-3 text-lg rounded hover:bg-gray-100">Login</div>
+      </a>
     </div>
     <ng-template #loggedInBlock>
-      <a [routerLink]="'/user/' + sessionService.currentUserId"><p class="mr-4 hover:underline">Hello {{ sessionService.firstName }} {{ sessionService.lastName }}!</p></a>
-      <a href="#" (click)="logOut()">
-        <span class="bg-red-500 text-white py-1 px-3 rounded-full">Logout</span>
-      </a>
+      <div class="flex text-end items-center">
+        <a [routerLink]="'/user/' + sessionService.currentUserId">
+          <div class="px-4 py-2 text-lg rounded hover:bg-gray-100">
+            <img id="scale-125 profile_pic" class="rounded-full w-10 inline" src="/assets/images/default_profile.jpg" alt="profile image" />
+            <p class="inline ml-2">{{ sessionService.firstName }} {{ sessionService.lastName }}</p>
+          </div>
+        </a>
+        <div class="px-1 py-6 text-lg border-r-2 border-gray-200 mr-1 -ml-1"></div>
+        <a href="#" (click)="logOut()">
+          <div class="px-4 py-3 text-lg rounded hover:bg-gray-100">Logout</div>
+        </a>
+
+      </div>
     </ng-template>
   </div>
-  <hr class="my-4" />
+  <hr class="mb-4" />
   <div class="flex">
     <div class="w-1/12 min-w-min">
       <nav>
         <div class="border rounded divide-y divide-solid">
-          <a routerLink="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Home</a>
-          <a routerLink="/plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Plants</a>
-          <a routerLink="/family" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Family</a>
+          <a routerLink="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Home</a>
+          <a routerLink="/plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Plants</a>
+          <a routerLink="/family" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Family</a>
           <div *ngIf="sessionService.sessionToken !== ''">
-            <a routerLink="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Add/Edit Plants</a>
-            <a routerLink="/manage-plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Manage Plants</a>
-            <a routerLink="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">GraphQL</a>
+            <a routerLink="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Add/Edit Plants</a>
+            <a routerLink="/manage-plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Manage Plants</a>
+            <a routerLink="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">GraphQL</a>
           </div>
 
         </div>
       </nav>
     </div>
     <div class='w-11/12'>
-      <app-alert [message]="alertService.alertMessage" [type]="alertService.alertType" [class]="alertService.alertClass"></app-alert>
+      <app-alert [message]="alertService.alertMessage" [type]="alertService.alertType"
+        [class]="alertService.alertClass"></app-alert>
       <div class="mx-4 w-full">
         <router-outlet></router-outlet>
       </div>

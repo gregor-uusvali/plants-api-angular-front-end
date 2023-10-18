@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'user/:id', component: UserProfileComponent },
 
 
-  { path: 'error', component: ErrorpageComponent },
+  { path: 'error', component: ErrorpageComponent, data: { error: 'An unexpected error occurred' } },
   { path: '**', redirectTo: 'error' },
 
 ];

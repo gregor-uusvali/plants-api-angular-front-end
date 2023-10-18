@@ -3,28 +3,25 @@
     overflow: hidden;
     background-color: rgba(0, 155, 255, 0.7);
 }
+
 .shim-yellow {
     position: relative;
     overflow: hidden;
     background-color: rgba(251, 255, 0, 0.7);
 }
+
 .shim-red {
     position: relative;
     overflow: hidden;
     background-color: rgba(255, 70, 0, 0.7);
 }
-/* 
-.shim-blue::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: translateX(-100%);
-    background-image: linear-gradient(90deg,
-            rgba(0, 155, 255, 0.7) 0%,
-            rgba(251, 255, 0, 0.7) 50%,
-            rgba(255, 70, 0, 0.7) 100%);
-    animation: shimmer 2.5s ease-out infinite;
-    content: "";
-} */
+
+#myImage {
+    transition: 2s;
+}
+
+#myImage:hover {
+    filter: invert(1);
+    cursor: pointer;
+
+}

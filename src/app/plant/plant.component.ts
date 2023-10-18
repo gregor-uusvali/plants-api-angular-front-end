@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PlantType } from '../models/plant.models';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-plant',
@@ -22,6 +22,7 @@ export class PlantComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     // private http: HttpClient
   ) { }
   ngOnInit() {
@@ -33,21 +34,26 @@ export class PlantComponent {
       headers: headers
     }
     fetch(`http://localhost:8080/api/v1/plants/${this.id}`, requestOptions)
-      .then((response) => response.json()
-        .then(data => {
-          let plant = {
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            image: data.image,
-            instruction: data.instruction,
-            date: data.date,
-          }
-          this.plant = plant
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      )
+      .then((response) => {
+        if (response.status === 404) {
+          this.router.navigate(['/error'], { state: { error: "Plant not found"} });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        let plant = {
+          id: data.id,
+          name: data.name,
+          description: data.description,
+          image: data.image,
+          instruction: data.instruction,
+          date: data.date,
+        };
+        this.plant = plant;
+      })
+      .catch((error) => {
+        // This catch block will be entered if there's a rejected promise (e.g., a 404 response)
+        console.log(error);
+      });
   }
 }
