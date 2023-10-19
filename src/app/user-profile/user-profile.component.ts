@@ -10,6 +10,7 @@ import { PlantType } from '../models/plant.models';
 export class UserProfileComponent {
   plants: PlantType[] = []; // Define and initialize the 'plants' property
   nrOfPlants: number = 0;
+  showChangePicElem: boolean = false
   constructor(
     public sessionService: SessionService,
   ) { }

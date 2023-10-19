@@ -1,8 +1,25 @@
-<div>
-    <h1 class="text-2xl font-bold inline">Name: </h1>
-    <h1 class="text-2xl inline">{{ sessionService.firstName }} {{ sessionService.lastName }}</h1>
-</div>
-<div class="mt-4">
-    <h1 class="text-2xl font-bold inline">Number of plants: </h1>
-    <h1 class="text-2xl inline">{{ nrOfPlants }}</h1>
+<div class="flex flex-wrap">
+    <div class="relative">
+        <img (mouseover)="showChangePicElem=true" (mouseout)="showChangePicElem=false" id="default_profile"
+        class="hover:brightness-50 hover:cursor-pointer rounded-full w-64" src="../../assets/images/default_profile.jpg" />
+        <!-- <div *ngIf="showChangePicElem">
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div class="flex items-center">
+                    <p class="font-bold text-lg mr-2">Edit</p>
+                    <i class="fa fa-pencil fa-lg white"aria-hidden="true"></i>
+                </div>
+
+            </div>
+        </div> -->
+    </div>
+    <div class="ml-6 mt-6">
+        <div>
+            <h1 class="text-2xl font-bold inline">Name: </h1>
+            <h1 class="text-2xl inline">{{ sessionService.firstName }} {{ sessionService.lastName }}</h1>
+        </div>
+        <div class="mt-4">
+            <h1 class="text-2xl font-bold inline">Number of plants: </h1>
+            <h1 class="text-2xl inline">{{ nrOfPlants }}</h1>
+        </div>
+    </div>
 </div>
