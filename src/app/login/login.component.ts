@@ -67,7 +67,10 @@ export class LoginComponent {
               data.sessionToken,
               true,
               data.firstName,
-              data.lastName
+              data.lastName,
+              data.accessLevel,
+              data.image,
+              data.createdAt
             )
             this.router.navigate(['/']);
           } else {

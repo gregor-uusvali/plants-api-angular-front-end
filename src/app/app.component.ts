@@ -29,7 +29,7 @@ export class AppComponent {
       method: "DELETE",
       body: this.sessionService.sessionToken
     })
-    this.sessionService.setSession(0, "", false, "", "")
+    this.sessionService.setSession(0, "", false, "", "", 2, "", new Date)
     this.cookieService.delete('session_token');
     this.router.navigate(['/']);
   }
@@ -47,7 +47,10 @@ export class AppComponent {
             cookie,
             true,
             data.firstName,
-            data.lastName
+            data.lastName,
+            data.accessLevel,
+            data.image,
+            data.createdAt
             )
         }
       })

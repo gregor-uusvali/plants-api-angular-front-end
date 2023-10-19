@@ -1,16 +1,18 @@
 <div class="flex flex-wrap">
-    <div class="relative">
-        <img (mouseover)="showChangePicElem=true" (mouseout)="showChangePicElem=false" id="default_profile"
-        class="hover:brightness-50 hover:cursor-pointer rounded-full w-64" src="../../assets/images/default_profile.jpg" />
-        <!-- <div *ngIf="showChangePicElem">
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div class="flex items-center">
-                    <p class="font-bold text-lg mr-2">Edit</p>
-                    <i class="fa fa-pencil fa-lg white"aria-hidden="true"></i>
-                </div>
-
+    <div class="relative ">
+        <div (click)="openFileInput()" (mouseover)="showChangePicElem()" (mouseout)="hideChangePicElem()" class="hover:cursor-pointer">
+            <div *ngIf="">
+                <img id="profile_profile_pic" class="rounded-full w-64" src="../../assets/images/default_profile.jpg" />
             </div>
-        </div> -->
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div id="profile_profile_pic_icons" class="items-center hidden">
+                    <label for="fileInput" class="font-bold text-lg mr-2 text-gray-50 cursor-pointer">Edit</label>
+                    <input type="file" id="fileInput" style="display: none" (change)="handleFileInput($event)" />
+                    <i class="fa fa-pencil fa-lg text-gray-50 cursor-pointer"></i>
+                </div>
+            </div>
+        </div>
+        
     </div>
     <div class="ml-6 mt-6">
         <div>
