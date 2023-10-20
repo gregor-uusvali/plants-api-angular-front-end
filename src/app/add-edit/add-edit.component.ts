@@ -87,6 +87,7 @@ export class AddEditComponent {
 
 
   doTheFlip(e: any, plantId: number | null = null): void {
+    console.log(plantId)
     if(this.activePlantId !== plantId){
       this.clicked = false
     }

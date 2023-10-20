@@ -1,7 +1,7 @@
 <div class="container mx-auto">
   <div class="flex justify-between mt-3 mb-2">
     <div class="flex-grow">
-      <h1 class="text-3xl font-bold">
+      <h1 class="text-3xl font-bold mt-2">
         {{title}}
       </h1>
     </div>
@@ -14,10 +14,15 @@
     </div>
     <ng-template #loggedInBlock>
       <div class="flex text-end items-center">
-        <a [routerLink]="'/user/' + sessionService.currentUserId">
-          <div class="px-4 py-2 text-lg rounded hover:bg-gray-100">
-            <img id="scale-125 profile_pic" class="rounded-full w-10 inline" src="/assets/images/default_profile.jpg" alt="profile image" />
-            <p class="inline ml-2">{{ sessionService.firstName }} {{ sessionService.lastName }}</p>
+        <a [href]="'/user/' + sessionService.currentUserId">
+          <div class="px-4 py-2 text-lg rounded hover:bg-gray-100 flex items-center">
+            <div *ngIf="sessionService.image==null; else hasOwnImg">
+              <img id="scale-125 profile_pic" class="rounded-full w-10 h-10" src="/assets/images/default_profile.jpg" alt="profile image" />
+            </div>
+            <ng-template #hasOwnImg>
+              <img id="scale-125 profile_pic" class="rounded-full w-10 h-10 object-cover" [src]="sessionService.image" alt="profile image" />
+            </ng-template>
+            <p class="ml-2">{{ sessionService.firstName }} {{ sessionService.lastName }}</p>
           </div>
         </a>
         <div class="px-1 py-6 text-lg border-r-2 border-gray-200 mr-1 -ml-1"></div>

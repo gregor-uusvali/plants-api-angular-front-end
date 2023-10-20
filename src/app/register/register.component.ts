@@ -80,6 +80,5 @@ export class RegisterComponent {
     } else {
       this.addInfo('No empty fields', 'error');
     }
-    console.log('Your order has been submitted', this.registerForm.value);
   }
 }

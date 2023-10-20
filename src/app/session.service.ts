@@ -10,7 +10,7 @@ export class SessionService {
   firstName: string = "";
   lastName: string = "";
   accessLevel: number = 2;
-  image: String = "";
+  image: String | null = null;
   createdAt: Date = new Date();
 
 

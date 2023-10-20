@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SessionService } from '../session.service';
 import { PlantType } from '../models/plant.models';
 import { AlertService } from '../alert.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,17 +10,27 @@ import { AlertService } from '../alert.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent {
-  plants: PlantType[] = []; // Define and initialize the 'plants' property
-  nrOfPlants: number = 0;
-  // showChangePicElem: boolean = false
+  id: string | null = null
+  numberOfPlants: number = 0
+  firstName: string = ""
+  lastName: string = ""
+  createdAt: string = ""
+  image: string | null = null
+
   constructor(
     public sessionService: SessionService,
     private alertService: AlertService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-
-    this.getPlants();
+    this.route.params.subscribe(params => {
+      const newId:number = +params['id']; // Extract the 'id' route parameter
+      this.id= newId.toString()
+      // You can also update your session service's currentUserId here, if needed
+    });
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.getUser()
 
   }
 
@@ -48,6 +59,7 @@ export class UserProfileComponent {
           if (response.ok) {
             // const data = await response.json();
             this.addInfo("Profile picture changed!", "success");
+            this.getUser()
           } else {
             const errorText = await response.text();
             this.addInfo(errorText, "error");
@@ -82,7 +94,8 @@ export class UserProfileComponent {
     icons?.classList.remove("flex")
   }
 
-  getPlants = () => {
+
+  getUser = () => {
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
 
@@ -91,38 +104,22 @@ export class UserProfileComponent {
       headers: headers,
 
     }
-    const cookie = this.sessionService.sessionToken;
-    fetch(`http://localhost:8080/api/v1/plants/user/${cookie}`, requestOptions)
+    fetch(`http://localhost:8080/api/v1/user/${this.id}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        this.plants = data
-        this.nrOfPlants = this.plants.length
-        console.log(this.plants)
+        console.log(data)
+        this.numberOfPlants = data.nrOfPlants
+        this.firstName = data.user.firstName
+        this.lastName = data.user.lastName
+        this.createdAt = data.user.createdAt.substring(0, 10)
+        this.image = data.user.image
+        if(this.id == this.sessionService.currentUserId.toString()){
+
+          this.sessionService.image = this.image
+        }
       })
       .catch(err => {
         console.log(err)
       })
   }
-
-  // getUser = () => {
-  //   const headers = new Headers()
-  //   headers.append("Content-Type", "application/json")
-
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: headers,
-
-  //   }
-  //   const cookie = this.sessionService.sessionToken;
-  //   fetch(`http://localhost:8080/api/v1/plants/user/${cookie}`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       this.plants = data
-  //       this.nrOfPlants = this.plants.length
-  //       console.log(this.plants)
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //     })
-  // }
 }

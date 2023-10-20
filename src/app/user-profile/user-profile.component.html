@@ -1,27 +1,47 @@
 <div class="flex flex-wrap">
     <div class="relative ">
-        <div (click)="openFileInput()" (mouseover)="showChangePicElem()" (mouseout)="hideChangePicElem()" class="hover:cursor-pointer">
-            <div *ngIf="">
-                <img id="profile_profile_pic" class="rounded-full w-64" src="../../assets/images/default_profile.jpg" />
-            </div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div id="profile_profile_pic_icons" class="items-center hidden">
-                    <label for="fileInput" class="font-bold text-lg mr-2 text-gray-50 cursor-pointer">Edit</label>
-                    <input type="file" id="fileInput" style="display: none" (change)="handleFileInput($event)" />
-                    <i class="fa fa-pencil fa-lg text-gray-50 cursor-pointer"></i>
+        <div *ngIf="sessionService.currentUserId.toString()==id; else noClickBlock">
+            <div (click)="openFileInput()" (mouseover)="showChangePicElem()" (mouseout)="hideChangePicElem()"
+                class="hover:cursor-pointer">
+                <div *ngIf="image==null; else hasOwnImg">
+                    <img id="profile_profile_pic" class="rounded-full w-64 h-64"
+                        src="../../assets/images/default_profile.jpg" />
+                </div>
+                <ng-template #hasOwnImg>
+                    <img id="profile_profile_pic" class="rounded-full w-64 h-64 object-cover" [src]="image" />
+                </ng-template>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div id="profile_profile_pic_icons" class="items-center hidden">
+                        <label for="fileInput" class="font-bold text-lg mr-2 text-gray-50 cursor-pointer">Edit</label>
+                        <input type="file" id="fileInput" style="display: none" (change)="handleFileInput($event)" />
+                        <i class="fa fa-pencil fa-lg text-gray-50 cursor-pointer"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        
+        <ng-template #noClickBlock>
+            <div *ngIf="image==null; else hasOwnImg">
+                <img id="profile_profile_pic" class="rounded-full w-64 h-64"
+                    src="../../assets/images/default_profile.jpg" />
+            </div>
+            <ng-template #hasOwnImg>
+                <img id="profile_profile_pic" class="rounded-full w-64 h-64 object-cover" [src]="image" />
+            </ng-template>
+        </ng-template>
+
     </div>
     <div class="ml-6 mt-6">
         <div>
             <h1 class="text-2xl font-bold inline">Name: </h1>
-            <h1 class="text-2xl inline">{{ sessionService.firstName }} {{ sessionService.lastName }}</h1>
+            <h1 class="text-2xl inline">{{ firstName }} {{ lastName }}</h1>
         </div>
         <div class="mt-4">
             <h1 class="text-2xl font-bold inline">Number of plants: </h1>
-            <h1 class="text-2xl inline">{{ nrOfPlants }}</h1>
+            <h1 class="text-2xl inline">{{ numberOfPlants }}</h1>
+        </div>
+        <div class="mt-4">
+            <h1 class="text-2xl font-bold inline">Joined: </h1>
+            <h1 class="text-2xl inline">{{ createdAt }}</h1>
         </div>
     </div>
 </div>
