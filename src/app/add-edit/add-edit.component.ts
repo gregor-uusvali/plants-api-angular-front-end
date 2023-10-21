@@ -68,27 +68,28 @@ export class AddEditComponent {
       this.alertService.setAlert(str, type, "hidden")
     }, 4000)
   }
-  setInitialVals = (plantId: number) => {
-    if(!this.clicked){
-
-      for (let i = 0; i < this.plants.length; i++) {
-        if (this.plants[i].id === plantId) {
-          console.log("plant found with id: ", this.plants[i].id)
-          this.plantId = plantId
-          this.plantName = this.plants[i].name
-          this.plantDescription = this.plants[i].description
-          this.plantInstruction = this.plants[i].instruction
-          this.selectedFile = ""
-          break
+  setInitialVals = (plantId: number | null) => {
+    if (!this.clicked) {
+        for (let i = 0; i < this.plants.length; i++) {
+          if (this.plants[i].id === plantId) {
+            console.log("plant found with id: ", this.plants[i].id)
+            this.plantId = plantId
+            this.plantName = this.plants[i].name
+            this.plantDescription = this.plants[i].description
+            this.plantInstruction = this.plants[i].instruction
+            this.selectedFile = ""
+            break
+          }
         }
-      }
+
     }
   }
 
 
   doTheFlip(e: any, plantId: number | null = null): void {
     console.log(plantId)
-    if(this.activePlantId !== plantId){
+    console.log(this.clicked)
+    if (this.activePlantId !== plantId) {
       this.clicked = false
     }
     this.activePlantId = plantId
@@ -137,6 +138,8 @@ export class AddEditComponent {
     }
     this.clicked = true
     this.activePlantId = plantId
+    console.log(plantId)
+    console.log(this.clicked)
   }
   removeTheFlip(e: any): void {
     this.clicked = false

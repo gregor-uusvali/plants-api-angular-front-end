@@ -12,12 +12,12 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'Water a palnt 🪴';
   constructor(
-    public  alertService: AlertService,
+    public alertService: AlertService,
     public sessionService: SessionService,
     public cookieService: CookieService,
     public router: Router
-  ) {}
-  ngOnInit(){
+  ) { }
+  ngOnInit() {
 
     this.alertService.setAlert('', '', "hidden")
     this.isLoggedIn()
@@ -51,7 +51,7 @@ export class AppComponent {
             data.accessLevel,
             data.image,
             data.createdAt
-            )
+          )
         }
       })
       .catch((error) => {
@@ -59,7 +59,12 @@ export class AppComponent {
       });
   }
   isLoggedIn = () => {
-    const cookie = this.cookieService.get("session_token");
+    // bro wtf is this cookie bs?!?!?
+    // const cookie = this.cookieService.get("session_token");
+    // console.log(cookie)
+    // console.log(this.cookieService.getAll()["session_token"])
+    const cookie = this.cookieService.getAll()["session_token"];
+
     if (cookie) {
       this.sessionService.sessionToken = cookie
       this.sessionService.isAuthenticated = true

@@ -15,9 +15,6 @@ export class SessionService {
 
 
   async getCurrentUserId(): Promise<number> {
-    // You can implement logic here to fetch the user ID if needed
-    // For example, you can fetch it from local storage or a cookie
-    // In this example, we'll just return the current value
     return this.currentUserId;
   }
 

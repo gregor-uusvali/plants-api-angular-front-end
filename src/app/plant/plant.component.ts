@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PlantType } from '../models/plant.models';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-plant',
@@ -23,9 +24,10 @@ export class PlantComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    // private http: HttpClient
+    public sessionService: SessionService,
   ) { }
   ngOnInit() {
+    console.log(this.sessionService)
     this.id = this.route.snapshot.paramMap.get('id');
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
