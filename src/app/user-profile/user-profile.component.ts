@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SessionService } from '../session.service';
 import { PlantType } from '../models/plant.models';
 import { AlertService } from '../alert.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -21,6 +21,7 @@ export class UserProfileComponent {
     public sessionService: SessionService,
     private alertService: AlertService,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -107,6 +108,9 @@ export class UserProfileComponent {
     fetch(`http://localhost:8080/api/v1/user/${this.id}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
+        if (data.error){
+          this.router.navigateByUrl('/error', { state: { error: data.error, status: 404} });
+        }
         console.log(data)
         this.numberOfPlants = data.nrOfPlants
         this.firstName = data.user.firstName

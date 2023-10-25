@@ -22,7 +22,7 @@ export class PlantsComponent {
       .then((response) => response.json())
       .then((data) => {
         this.plants = data
-        console.log(this.plants)
+        // console.log(this.plants)
       })
       .catch(err => {
         console.log(err)

@@ -1,10 +1,11 @@
 <div class="container">
     <div class="flex ml-10">
       <div class="w-1/2">
-        <h1 class="text-2xl mt-3">Oops!</h1>
+        <h1 class="text-2xl mt-3">Oops! {{error.status}}</h1>
         <p>Sorry, an unexpected error has occurred.</p>
         <p>
-          <em>{{ error.statusText || error.message }}</em>
+          <em>{{ error.error || error.message }}</em>
+          
         </p>
       </div>
     </div>

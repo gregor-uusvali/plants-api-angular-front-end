@@ -38,7 +38,7 @@ export class PlantComponent {
     fetch(`http://localhost:8080/api/v1/plants/${this.id}`, requestOptions)
       .then((response) => {
         if (response.status === 404) {
-          this.router.navigate(['/error'], { state: { error: "Plant not found"} });
+          this.router.navigateByUrl('/error', { state: { error: "Plant not found", status: 404} });
         }
         return response.json();
       })

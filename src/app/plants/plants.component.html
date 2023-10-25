@@ -3,17 +3,17 @@
     <h2 class="text-2xl font-bold">Plants</h2>
     <hr class="my-4" />
     <div class="overflow-x-auto">
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div class="relative overflow-x-auto shadow-md rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" class="pl-6 py-3">
                 Plant
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" class="pl-6 py-3">
                 Date
               </th>
-              <th scope="col" class="px-6 py-3 text-center">
+              <th scope="col" class="pl-6 py-3 text-center">
                 Image
               </th>
             </tr>
@@ -22,13 +22,13 @@
 
             <tr *ngFor="let plant of plants"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <td scope="row" class="pl-6 py-4 font-medium text-gray-900 dark:text-white">
                 <a [routerLink]="'/plant/' + plant.id" class="hover:text-blue-500">{{plant.name}}</a>
-              </th>
-              <td class="px-6 py-4">
+              </td>
+              <td class="pl-6 py-4">
                 {{plant.date}}
               </td>
-              <td class="px-6 py-4">
+              <td class="pl-6 py-4">
                 <img class=" h-20 mx-auto object-contain" [src]="plant.image" alt="plant image" />
               </td>
             </tr>

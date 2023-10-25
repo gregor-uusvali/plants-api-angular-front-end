@@ -10,7 +10,8 @@ export class ErrorpageComponent {
   error: any;
 
   constructor(private route: ActivatedRoute){
-    this.error = this.route.snapshot.data['error'] || {message: 'An unexpected error occurred'}
+    console.log(window.history.state)
+    this.error = window.history.state || {message: 'An unexpected error occurred'}
     console.log(route.snapshot.data['error'])
   }
 }
