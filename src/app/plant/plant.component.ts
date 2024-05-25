@@ -38,6 +38,7 @@ export class PlantComponent {
   ngOnInit() {
     console.log(this.sessionService)
     this.fetchPlant();
+    this.fetchComments();
   }
 
   addInfo = (str: string, type: string) => {
@@ -80,61 +81,28 @@ export class PlantComponent {
   }
 
   fetchComments() {
-
+    this.id = this.route.snapshot.paramMap.get('id');
+    const headers = new Headers()
+    headers.append("Content-Type", "application/json")
+    const requestOptions = {
+      method: "GET",
+      headers: headers
+    }
+    fetch(`http://localhost:8080/api/v1/plants/comments/${this.id}`, requestOptions)
+      .then((response) => {
+        if (response.status === 404) {
+          this.router.navigateByUrl('/error', { state: { error: "Plant comments not found", status: 404} });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("comments:", data)
+      })
+      .catch((error) => {
+        // This catch block will be entered if there's a rejected promise (e.g., a 404 response)
+        console.log(error);
+      });
   }
-
-  // handleAdd(e: any): void {
-  //   e.preventDefault()
-  //   console.log(this.plantForm.value)
-  //   const name = this.plantForm.value.name
-  //   const description = this.plantForm.value.description
-  //   const instruction = this.plantForm.value.instruction
-  //   const image = this.plantForm.value.image
-  //   if (name !== "" && description !== "" && instruction !== "" && image !== null) {
-  //     const currentDate = new Date()
-  //     const formData = new FormData()
-  //     if (name && description && instruction) {
-  //       formData.append("name", name)
-  //       formData.append("description", description);
-  //       if (image) {
-  //         formData.append("image", image);
-  //       }
-  //       formData.append("instruction", instruction);
-  //       formData.append("date", currentDate.toISOString().substring(0, 10));
-  //       formData.append("userId", this.sessionService.currentUserId.toString())
-  //       console.log(formData)
-  //       const requestOptions = {
-  //         method: "POST",
-  //         body: formData,
-  //       };
-  //       fetch("http://localhost:8080/api/v1/plants/add", requestOptions)
-  //         .then(async (response) => {
-  //           if (response.ok) {
-  //             // const data = await response.json();
-  //             this.addInfo("New plant added!", "success");
-  //             this.removeTheFlip(e);
-  //             this.plantId = 0
-  //             this.plantName = ""
-  //             this.plantDescription = ""
-  //             this.plantInstruction = ""
-  //             this.selectedFile = ""
-  //             this.getPlants();
-  //           } else {
-  //             const errorText = await response.text();
-  //             this.addInfo(errorText, "error");
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //           this.addInfo("An error has occurred", "error");
-  //         });
-  //     }
-  //   } else {
-  //     this.addInfo("No empty fields", "error");
-  //   }
-  // }
-
-
 
   addComment(e: any): void {
     e.preventDefault();
