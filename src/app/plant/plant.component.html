@@ -15,36 +15,40 @@
 </div>
 
 <div id="commentSection">
-    <div class="comment-input ml-2">
+    <div *ngIf="sessionService.sessionToken != ''" class="comment-input ml-2">
         <form [formGroup]="commentForm" (ngSubmit)="addComment($event)"
         class="">
         <div class="mb-2">
             <label for="comment" class="block text-gray-700 text-sm font-bold mb-1">
             Add comment
             </label>
-            <textarea id="addComment" type="text" formControlName="comment"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight h-24" autocomplete="email"></textarea>
+            <textarea #commentTextarea id="addComment" type="text" formControlName="comment"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight h-24"></textarea>
         </div>
         <button class="button" type="submit"
             class="hover:cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add</button>
         </form>
     </div>
 
-    <div class="comment">
-        <div class="user-pic">
-        </div>
+    <div *ngFor="let comment of comments" class="comment">
+        <img class="user-pic" [src]="comment.image ? comment.image : '/assets/images/default_profile.jpg'">
         <div class="comment-content">
             <div class="username-date">
-                <div class="user-name">Ork123</div>
-                <div class="comment-time">{{datePlaceholder}}</div>
+                <div class="user-name">{{comment.firstName}} {{comment.lastName}}</div>
+                <div class="comment-time">{{comment.comment.date | date:"MMM dd, yyyy 'at' hh:mm a" }}</div>
             </div>
-            <div class="comment-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia</div>
+            <div class="comment-text">{{comment.comment.commentText}}</div>
             <div class="like-section">
-                <i class="material-icons">thumb_up_off_alt</i>
-                <div class="like-count">1</div>
-                <i class="material-icons">thumb_down_off_alt</i>
-                <div class="dislike-count">2</div>
+                <div class="like-section-btn">
+                    <i class="material-icons">thumb_up_off_alt</i>
+                    <div class="like-count">{{comment.comment.likeCount}}</div>
+                </div>
+                <div class="like-section-btn">
+                    <i class="material-icons">thumb_down_off_alt</i>
+                    <div class="dislike-count">{{comment.comment.dislikeCount}}</div>
+                </div>
             </div>
         </div>
     </div>
+
 </div>

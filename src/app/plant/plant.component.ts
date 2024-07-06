@@ -1,10 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { PlantType } from '../models/plant.models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionService } from '../session.service';
 import { FormBuilder } from '@angular/forms';
 import { AlertService } from '../alert.service';
+import { PlantService } from './plant.service';
 
+// @HostListener('window:scroll', ['$event']) // for window scroll events
+
+export interface CommentWithUserDTO {
+  id: number;
+  userId: number;
+  plantId: number;
+  commentText: string;
+  likeCount: number;
+  dislikeCount: number;
+  date: string; // or Date if you plan to handle it as a Date object
+  email: string;
+  firstName: string;
+  lastName: string;
+  image: string | null;
+}
 @Component({
   selector: 'app-plant',
   templateUrl: './plant.component.html',
@@ -13,6 +29,7 @@ import { AlertService } from '../alert.service';
 
 
 export class PlantComponent {
+  @ViewChild('commentTextarea') commentTextarea !: ElementRef;
   id: string | null = null
   plant: PlantType = {
     id: 0,
@@ -27,18 +44,24 @@ export class PlantComponent {
     comment: '',
   });
 
+  comments: any;
+  commentAmount: number = 10;
+  bottomReached: boolean = false;
+
   datePlaceholder:string = new Date().toUTCString();
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public sessionService: SessionService,
     public formBuilder: FormBuilder,
-    public alertService: AlertService
+    public alertService: AlertService,
+    private plantService: PlantService
   ) { }
   ngOnInit() {
     console.log(this.sessionService)
-    this.fetchPlant();
-    this.fetchComments();
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.fetchPlant(this.id);
+    this.fetchComments(this.id, this.commentAmount);
   }
 
   addInfo = (str: string, type: string) => {
@@ -48,15 +71,14 @@ export class PlantComponent {
     }, 4000)
   }
 
-  fetchPlant() {
-    this.id = this.route.snapshot.paramMap.get('id');
+  fetchPlant(id: String | null) {
     const headers = new Headers()
     headers.append("Content-Type", "application/json")
     const requestOptions = {
       method: "GET",
       headers: headers
     }
-    fetch(`http://localhost:8080/api/v1/plants/${this.id}`, requestOptions)
+    fetch(`http://localhost:8080/api/v1/plants/${id}`, requestOptions)
       .then((response) => {
         if (response.status === 404) {
           this.router.navigateByUrl('/error', { state: { error: "Plant not found", status: 404} });
@@ -80,28 +102,14 @@ export class PlantComponent {
       });
   }
 
-  fetchComments() {
-    this.id = this.route.snapshot.paramMap.get('id');
-    const headers = new Headers()
-    headers.append("Content-Type", "application/json")
-    const requestOptions = {
-      method: "GET",
-      headers: headers
-    }
-    fetch(`http://localhost:8080/api/v1/plants/comments/${this.id}`, requestOptions)
-      .then((response) => {
-        if (response.status === 404) {
-          this.router.navigateByUrl('/error', { state: { error: "Plant comments not found", status: 404} });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("comments:", data)
-      })
-      .catch((error) => {
-        // This catch block will be entered if there's a rejected promise (e.g., a 404 response)
-        console.log(error);
-      });
+  fetchComments(id: string | null, amount: number) {
+    this.plantService.getComments(id, amount).subscribe(data => {
+      if (this.comments?.length > 0) {
+        this.comments.push(...data)
+      } else {
+        this.comments = data;
+      }
+    })
   }
 
   addComment(e: any): void {
@@ -132,10 +140,25 @@ export class PlantComponent {
           console.log(error);
           this.addInfo('An error occurred', 'error');
         });
-      this.addInfo('Login successful!', 'success')
+
+      this.comments.push()
+      // this.addInfo('Comment added successful!', 'success')
+      this.commentTextarea.nativeElement.value = "";
+      console.log(this.commentTextarea)
 
     } else {
       this.addInfo("Comment can't be empty", 'error');
+    }
+  }
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    if ((document.body.clientHeight + window.scrollY) >= document.body.scrollHeight) {
+        if (!this.bottomReached){
+          console.log('triggred');
+          this.commentAmount += 10;
+          // this.fetchComments(this.id, this.commentAmount);
+        }
+        this.bottomReached=true;
     }
   }
 
