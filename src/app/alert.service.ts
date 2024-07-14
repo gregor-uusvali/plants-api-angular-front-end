@@ -13,4 +13,11 @@ export class AlertService {
     this.alertType = type;
     this.alertClass = className;
   }
+
+  addInfo = (str: string, type: string) => {
+    this.setAlert(str, type, "alert-banner")
+    setTimeout(() => {
+      this.setAlert(str, type, "hidden")
+    }, 4000)
+  }
 }

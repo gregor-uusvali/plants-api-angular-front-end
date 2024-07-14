@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div class="container mx-auto main-container">
   <div class="flex justify-between mt-3 mb-2">
     <div class="flex-grow">
       <h1 class="text-3xl font-bold mt-2">
@@ -6,7 +6,6 @@
       </h1>
     </div>
     <div *ngIf="sessionService.sessionToken === ''; else loggedInBlock" class="flex text-end items-center">
-      <!-- <a routerLink="login"><span class="bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-600">Login</span></a> -->
       <div class="px-4 py-6 text-lg border-r-2 border-gray-200 mr-1"></div>
       <a routerLink="login">
         <div class="px-4 py-3 text-lg rounded hover:bg-gray-100">Login</div>
