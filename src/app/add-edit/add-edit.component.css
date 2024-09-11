@@ -9,7 +9,6 @@ textarea {
     color: white; /* Change the fill color to white when hovering */
 }
 
-
 .flip-card {
     position: relative;
     background-color: transparent;
@@ -30,11 +29,9 @@ textarea {
     border-radius: 0.5rem;
 }
 
-
 .do-the-flip {
     transform: rotateY(180deg);
 }
-
 
 .flip-card-front, .flip-card-back {
     position: absolute;
