@@ -14,7 +14,7 @@ import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { SessionService } from './session.service';
-import { AuthGuard } from './services/auth.guard';
+import { AuthGuard } from './auth-guard/auth.guard';
 
 const routes: Routes = [
 

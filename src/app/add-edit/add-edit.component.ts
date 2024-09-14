@@ -267,14 +267,17 @@ export class AddEditComponent {
     const target = e.target as HTMLInputElement;
     this.plantName = target.value;
   };
+
   handleDescriptionChange = (e: any) => {
     const target = e.target as HTMLInputElement;
     this.plantDescription = target.value;
   };
+
   handleInstructionChange = (e: any) => {
     const target = e.target as HTMLInputElement;
     this.plantInstruction = target.value;
   };
+  
   clearInputFile = () => {
     const inputs = document.querySelectorAll<HTMLInputElement>('.inputFileClass');
     inputs.forEach((input) => {
