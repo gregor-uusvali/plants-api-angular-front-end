@@ -70,7 +70,8 @@ export class LoginComponent {
               data.lastName,
               data.accessLevel,
               data.image,
-              data.createdAt
+              data.createdAt,
+              data.email
             )
             this.router.navigate(['/']);
           } else {

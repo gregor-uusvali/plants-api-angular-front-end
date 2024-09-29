@@ -109,6 +109,7 @@ export class PlantComponent {
       } else {
         this.comments = data;
       }
+      console.log(data)
     })
   }
 
@@ -134,17 +135,16 @@ export class PlantComponent {
       }; 
       fetch('http://localhost:8080/api/v1/comments/addComment', requestOptions)
         .then(async (response) => {
-          console.log(response)
+          const data = await response.json(); // Parse the response as JSON
+          console.log(data); // Log the comment object
         })
         .catch(error => {
           console.log(error);
           this.addInfo('An error occurred', 'error');
         });
 
-      this.comments.push()
       // this.addInfo('Comment added successful!', 'success')
       this.commentTextarea.nativeElement.value = "";
-      console.log(this.commentTextarea)
 
     } else {
       this.addInfo("Comment can't be empty", 'error');
@@ -156,7 +156,7 @@ export class PlantComponent {
         if (!this.bottomReached){
           console.log('triggred');
           this.commentAmount += 10;
-          // this.fetchComments(this.id, this.commentAmount);
+          this.fetchComments(this.id, this.commentAmount);
         }
         this.bottomReached=true;
     }

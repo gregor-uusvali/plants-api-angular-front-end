@@ -23,13 +23,14 @@ export class SessionService {
   accessLevel: number = 2;
   image: String | null = null;
   createdAt: Date = new Date();
+  email: string ="";
 
 
   async getCurrentUserId(): Promise<number> {
     return this.currentUserId;
   }
 
-  setSession(userId: number, token: string, isAuth: boolean, fName: string, lName: string, accessLvl: number, img: String, createdAt: Date){
+  setSession(userId: number, token: string, isAuth: boolean, fName: string, lName: string, accessLvl: number, img: String, createdAt: Date, email: string){
     this.currentUserId = userId;
     this.sessionToken = token;
     this.isAuthenticated = isAuth;
@@ -37,14 +38,15 @@ export class SessionService {
     this.lastName = lName;
     this.accessLevel = accessLvl;
     this.image = img;
-    this. createdAt = createdAt;
+    this.createdAt = createdAt;
+    this.email = email;
   }
 
   logOut = () => {
     this.http.delete('http://localhost:8080/api/v1/logout', {
       body: this.sessionToken
     })
-    this.setSession(0, "", false, "", "", 2, "", new Date);
+    this.setSession(0, "", false, "", "", 2, "", new Date, "");
     this.cookieService.delete('session_token');
     this.router.navigate(['/']);
   }
@@ -54,6 +56,7 @@ export class SessionService {
       withCredentials: true
     }).subscribe({
       next: (data: any) => {
+        console.log(data);
         this.setSession(
           data.id,
           cookie,
@@ -62,7 +65,8 @@ export class SessionService {
           data.lastName,
           data.accessLevel,
           data.image,
-          data.createdAt
+          data.createdAt,
+          data.email
         )
       },
       error: (error) => {
