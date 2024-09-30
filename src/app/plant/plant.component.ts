@@ -6,16 +6,8 @@ import { FormBuilder } from '@angular/forms';
 import { AlertService } from '../alert.service';
 import { PlantService } from './plant.service';
 
-// @HostListener('window:scroll', ['$event']) // for window scroll events
-
 export interface CommentWithUserDTO {
-  id: number;
-  userId: number;
-  plantId: number;
-  commentText: string;
-  likeCount: number;
-  dislikeCount: number;
-  date: string; // or Date if you plan to handle it as a Date object
+  comment: any;
   email: string;
   firstName: string;
   lastName: string;
@@ -24,21 +16,19 @@ export interface CommentWithUserDTO {
 @Component({
   selector: 'app-plant',
   templateUrl: './plant.component.html',
-  styleUrls: ['./plant.component.css']
+  styleUrls: ['./plant.component.css'],
 })
-
-
 export class PlantComponent {
-  @ViewChild('commentTextarea') commentTextarea !: ElementRef;
-  id: string | null = null
+  @ViewChild('commentTextarea') commentTextarea!: ElementRef;
+  id: string | null = null;
   plant: PlantType = {
     id: 0,
     name: '',
     description: '',
     image: '',
     instruction: '',
-    date: ''
-  }
+    date: '',
+  };
 
   commentForm = this.formBuilder.group({
     comment: '',
@@ -48,7 +38,8 @@ export class PlantComponent {
   commentAmount: number = 10;
   bottomReached: boolean = false;
 
-  datePlaceholder:string = new Date().toUTCString();
+  datePlaceholder: string = new Date().toUTCString();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -56,61 +47,62 @@ export class PlantComponent {
     public formBuilder: FormBuilder,
     public alertService: AlertService,
     private plantService: PlantService
-  ) { }
+  ) {}
+
   ngOnInit() {
-    console.log(this.sessionService)
+    console.log(this.sessionService);
     this.id = this.route.snapshot.paramMap.get('id');
     this.fetchPlant(this.id);
     this.fetchComments(this.id, this.commentAmount);
   }
 
   addInfo = (str: string, type: string) => {
-    this.alertService.setAlert(str, type, "alert-banner")
+    this.alertService.setAlert(str, type, 'alert-banner');
     setTimeout(() => {
-      this.alertService.setAlert(str, type, "hidden")
-    }, 4000)
-  }
+      this.alertService.setAlert(str, type, 'hidden');
+    }, 4000);
+  };
 
-  fetchPlant(id: String | null) {
-    const headers = new Headers()
-    headers.append("Content-Type", "application/json")
-    const requestOptions = {
-      method: "GET",
-      headers: headers
-    }
-    fetch(`http://localhost:8080/api/v1/plants/${id}`, requestOptions)
-      .then((response) => {
-        if (response.status === 404) {
-          this.router.navigateByUrl('/error', { state: { error: "Plant not found", status: 404} });
-        }
-        return response.json();
-      })
-      .then((data) => {
+  fetchPlant(id: string | null) {
+    this.plantService.getPlants(id).subscribe({
+      next: (response) => {
         let plant = {
-          id: data.id,
-          name: data.name,
-          description: data.description,
-          image: data.image,
-          instruction: data.instruction,
-          date: data.date,
+          id: response.id,
+          name: response.name,
+          description: response.description,
+          image: response.image,
+          instruction: response.instruction,
+          date: response.date,
         };
         this.plant = plant;
-      })
-      .catch((error) => {
-        // This catch block will be entered if there's a rejected promise (e.g., a 404 response)
+      },
+      error: (error) => {
+        if (error.status === 404) {
+          this.router.navigateByUrl('/error', {
+            state: { error: 'Plant not found', status: 404 },
+          });
+        }
         console.log(error);
-      });
+      },
+    });
   }
 
   fetchComments(id: string | null, amount: number) {
-    this.plantService.getComments(id, amount).subscribe(data => {
-      if (this.comments?.length > 0) {
-        this.comments.push(...data)
-      } else {
-        this.comments = data;
-      }
-      console.log(data)
-    })
+    this.plantService.getComments(id, amount).subscribe({
+      next: (response) => {
+        if (this.comments?.length > 0) {
+          this.comments.push(...response);
+        } else {
+          this.comments = response;
+        }
+        if (response.length > 0) {
+          this.bottomReached = false;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   addComment(e: any): void {
@@ -122,44 +114,42 @@ export class PlantComponent {
       const payload = {
         commentText: commentText,
         userId: userId,
-        plantId: plantId
+        plantId: plantId,
       };
 
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json')
-
-      const requestOptions = {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(payload)
-      }; 
-      fetch('http://localhost:8080/api/v1/comments/addComment', requestOptions)
-        .then(async (response) => {
-          const data = await response.json(); // Parse the response as JSON
-          console.log(data); // Log the comment object
-        })
-        .catch(error => {
-          console.log(error);
-          this.addInfo('An error occurred', 'error');
-        });
-
-      // this.addInfo('Comment added successful!', 'success')
-      this.commentTextarea.nativeElement.value = "";
-
+      this.plantService.addComment(payload).subscribe({
+        next: (response) => {
+          const comment: CommentWithUserDTO = {
+            comment: response,
+            email: this.sessionService.email,
+            firstName: this.sessionService.firstName,
+            lastName: this.sessionService.lastName,
+            image: this.sessionService.image,
+          };
+          this.comments.unshift(comment);
+        },
+        error: (error) => {
+          this.addInfo(`An error occurred: ${error}`, 'error');
+        },
+      });
+      this.commentTextarea.nativeElement.value = '';
     } else {
       this.addInfo("Comment can't be empty", 'error');
     }
   }
+
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
-    if ((document.body.clientHeight + window.scrollY) >= document.body.scrollHeight) {
-        if (!this.bottomReached){
-          console.log('triggred');
-          this.commentAmount += 10;
-          this.fetchComments(this.id, this.commentAmount);
-        }
-        this.bottomReached=true;
+    if (
+      document.body.clientHeight + window.scrollY >=
+      document.body.scrollHeight
+    ) {
+      if (!this.bottomReached) {
+        console.log('triggred');
+        this.commentAmount += 10;
+        this.fetchComments(this.id, this.commentAmount);
+      }
+      this.bottomReached = true;
     }
   }
-
 }
