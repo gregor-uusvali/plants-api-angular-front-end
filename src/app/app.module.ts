@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { CommentComponent } from './comment/comment.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
     AlertComponent,
     ConfirmationModalComponent,
     UserProfileComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,

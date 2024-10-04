@@ -30,25 +30,8 @@
         </form>
     </div>
 
-    <div *ngFor="let comment of comments" class="comment">
-        <img class="user-pic" [src]="comment.image ? comment.image : '/assets/images/default_profile.jpg'">
-        <div class="comment-content">
-            <div class="username-date">
-                <div class="user-name">{{comment.firstName}} {{comment.lastName}}</div>
-                <div class="comment-time">{{comment.comment.date | date:"MMM dd, yyyy 'at' hh:mm a" }}</div>
-            </div>
-            <div class="comment-text">{{comment.comment.commentText}}</div>
-            <div class="like-section">
-                <div class="like-section-btn">
-                    <i class="material-icons">thumb_up_off_alt</i>
-                    <div class="like-count">{{comment.comment.likeCount}}</div>
-                </div>
-                <div class="like-section-btn">
-                    <i class="material-icons">thumb_down_off_alt</i>
-                    <div class="dislike-count">{{comment.comment.dislikeCount}}</div>
-                </div>
-            </div>
-        </div>
+    <div *ngFor="let comment of comments">
+        <app-comment [comment]="comment"></app-comment>
     </div>
 
 </div>
