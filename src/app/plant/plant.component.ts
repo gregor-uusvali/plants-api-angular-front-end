@@ -12,6 +12,7 @@ export interface CommentWithUserDTO {
   firstName: string;
   lastName: string;
   image: string | null;
+  userStatus: number;
 }
 @Component({
   selector: 'app-plant',
@@ -88,7 +89,7 @@ export class PlantComponent {
   }
 
   fetchComments(id: string | null, amount: number) {
-    this.plantService.getComments(id, amount).subscribe({
+    this.plantService.getComments(id, amount, this.sessionService.currentUserId).subscribe({
       next: (response) => {
         if (this.comments?.length > 0) {
           this.comments.push(...response);
@@ -125,6 +126,8 @@ export class PlantComponent {
             firstName: this.sessionService.firstName,
             lastName: this.sessionService.lastName,
             image: this.sessionService.image,
+            userStatus: 0,
+
           };
           this.comments.unshift(comment);
         },
