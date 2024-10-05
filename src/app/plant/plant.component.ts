@@ -5,6 +5,7 @@ import { SessionService } from '../session.service';
 import { FormBuilder } from '@angular/forms';
 import { AlertService } from '../alert.service';
 import { PlantService } from './plant.service';
+import { Subject, interval, takeUntil, timer } from 'rxjs';
 
 export interface CommentWithUserDTO {
   comment: any;
@@ -40,6 +41,9 @@ export class PlantComponent {
   bottomReached: boolean = false;
 
   datePlaceholder: string = new Date().toUTCString();
+  
+  private destroy$ = new Subject<void>(); // Subject to manage unsubscription
+
 
   constructor(
     private route: ActivatedRoute,
@@ -51,10 +55,21 @@ export class PlantComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.sessionService);
     this.id = this.route.snapshot.paramMap.get('id');
-    this.fetchPlant(this.id);
-    this.fetchComments(this.id, this.commentAmount);
+    // Subscribe to session readiness
+    this.sessionService.sessionReady$
+      .pipe(takeUntil(this.destroy$)) // Unsubscribe when component is destroyed
+      .subscribe(isReady => {
+        if (isReady) {
+          this.fetchPlant(this.id);
+          this.fetchComments(this.id, this.commentAmount);
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(); // Emit a value to complete the Subject
+    this.destroy$.complete(); // Complete the Subject
   }
 
   addInfo = (str: string, type: string) => {

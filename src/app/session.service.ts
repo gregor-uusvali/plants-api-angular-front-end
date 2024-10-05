@@ -2,11 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
+
+  private sessionReadySource = new BehaviorSubject<boolean>(false);  // Tracks if session is ready
+  public sessionReady$ = this.sessionReadySource.asObservable();    // Public observable
+  
   constructor(
     private http: HttpClient,
     private cookieService: CookieService,
@@ -80,9 +85,11 @@ export class SessionService {
             data.createdAt,
             data.email
           );
+          this.sessionReadySource.next(true);  // Mark session as ready
         },
         error: (error) => {
           console.log(error);
+          this.sessionReadySource.next(false);  // Mark session as ready
         },
       });
   };
