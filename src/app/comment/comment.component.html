@@ -8,11 +8,13 @@
     <div class="comment-text">{{comment.comment.commentText}}</div>
     <div class="like-section">
       <div class="like-section-btn">
-        <i class="material-icons" (click)="addLike(comment.comment.id, 1)">thumb_up_off_alt</i>
+        <i *ngIf="comment.userStatus === 1" class="material-icons like-icon" (click)="addLike(comment.comment.id, 0)">thumb_up</i>
+        <i *ngIf="comment.userStatus === 0 || comment.userStatus === -1" class="material-icons like-icon" (click)="addLike(comment.comment.id, 1)">thumb_up_off_alt</i>
         <div class="like-count">{{comment.comment.likeCount}}</div>
       </div>
       <div class="like-section-btn">
-        <i class="material-icons">thumb_down_off_alt</i>
+        <i *ngIf="comment.userStatus === -1" (click)="addLike(comment.comment.id, 0)" class="material-icons like-icon">thumb_down</i>
+        <i *ngIf="comment.userStatus === 0 || comment.userStatus === 1" class="material-icons like-icon" (click)="addLike(comment.comment.id, -1)">thumb_down_off_alt</i>
         <div class="dislike-count">{{comment.comment.dislikeCount}}</div>
       </div>
     </div>

@@ -26,6 +26,20 @@ export class CommentComponent implements OnInit{
     this.commentService.addCommentLike(payload).subscribe({
       next: (response) => {
         console.log(response)
+        const prevStatus = this.comment.userStatus;
+        console.log(prevStatus)
+        console.log(this.comment)
+        this.comment.userStatus = response.status;
+        if (response.status === 1) {
+          this.comment.comment.likeCount++;
+          if (prevStatus === -1) this.comment.comment.dislikeCount--;
+        } else if (response.status === -1) {
+          this.comment.comment.dislikeCount++;
+          if (prevStatus === 1) this.comment.comment.likeCount--;
+        } else {
+          if (prevStatus === -1) this.comment.comment.dislikeCount--;
+          if (prevStatus === 1) this.comment.comment.likeCount--;
+        }
       },
       error: (error) => {
         console.log(error)

@@ -51,3 +51,8 @@
 #addComment {
   resize: none;
 }
+
+.like-icon:hover {
+  cursor: pointer;
+  color: rgb(127,127,127);
+}

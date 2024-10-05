@@ -89,6 +89,7 @@ export class PlantComponent {
   }
 
   fetchComments(id: string | null, amount: number) {
+    console.log(this.sessionService.currentUserId)
     this.plantService.getComments(id, amount, this.sessionService.currentUserId).subscribe({
       next: (response) => {
         if (this.comments?.length > 0) {

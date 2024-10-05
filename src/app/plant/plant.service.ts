@@ -11,6 +11,7 @@ export class PlantService {
     const headers = new HttpHeaders({
       'userId': userId.toString() // Custom header for user ID
     });
+    console.log(headers)
     return this.http.get<any>(
       `http://localhost:8080/api/v1/plants/comments/${plantId}?amount=${amount}`,
       {headers: headers}
