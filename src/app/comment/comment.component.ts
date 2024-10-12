@@ -31,14 +31,14 @@ export class CommentComponent implements OnInit{
         console.log(this.comment)
         this.comment.userStatus = response.status;
         if (response.status === 1) {
-          this.comment.comment.likeCount++;
-          if (prevStatus === -1) this.comment.comment.dislikeCount--;
+          this.comment.likeCount++;
+          if (prevStatus === -1) this.comment.dislikeCount--;
         } else if (response.status === -1) {
-          this.comment.comment.dislikeCount++;
-          if (prevStatus === 1) this.comment.comment.likeCount--;
+          this.comment.dislikeCount++;
+          if (prevStatus === 1) this.comment.likeCount--;
         } else {
-          if (prevStatus === -1) this.comment.comment.dislikeCount--;
-          if (prevStatus === 1) this.comment.comment.likeCount--;
+          if (prevStatus === -1) this.comment.dislikeCount--;
+          if (prevStatus === 1) this.comment.likeCount--;
         }
       },
       error: (error) => {

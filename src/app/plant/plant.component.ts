@@ -127,6 +127,10 @@ export class PlantComponent {
     const commentText = this.commentForm.value.comment;
     const userId = this.sessionService.currentUserId;
     const plantId = this.plant.id;
+    if (commentText && commentText?.length > 1000) {
+      this.addInfo("Comment can't be over 1000 letters", 'error');
+      return;
+    }
     if (commentText !== '') {
       const payload = {
         commentText: commentText,
@@ -146,6 +150,7 @@ export class PlantComponent {
 
           };
           this.comments.unshift(comment);
+          this.commentAmount++;
         },
         error: (error) => {
           this.addInfo(`An error occurred: ${error}`, 'error');
