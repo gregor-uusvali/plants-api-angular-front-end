@@ -79,6 +79,12 @@ export class AddEditComponent {
   };
 
   doTheFlip(e: any, plantId: number | null = null): void {
+    let parentElem: any;
+    if (plantId) {
+      parentElem = document.getElementById("plant-" + plantId);
+    } else {
+      parentElem = document.getElementById("addCard");
+    }
     if (this.activePlantId !== plantId) {
       this.clicked = false;
     }
@@ -93,6 +99,8 @@ export class AddEditComponent {
         this.plantInstruction = '';
         this.selectedFile = '';
       }
+      const flippedElem = document.querySelector(".flip-card-height");
+      flippedElem?.classList.remove("flip-card-height");
       const elementsWithClass = document.querySelectorAll('.do-the-flip');
       elementsWithClass.forEach((element) => {
         element.classList.remove('do-the-flip');
@@ -100,6 +108,7 @@ export class AddEditComponent {
       // Add the 'do-the-flip' class to the target element
       const childElement = e.currentTarget.querySelector('.flip-card-inner');
       if (childElement) {
+        parentElem?.classList.add("flip-card-height");
         childElement.classList.add('do-the-flip');
       }
     } else {
@@ -107,6 +116,7 @@ export class AddEditComponent {
         document.querySelectorAll('.flip-card-inner');
       flipCardInnerElements.forEach((element) => {
         element.classList.remove('do-the-flip');
+        
       });
       if (plantId !== null) {
         this.setInitialVals(plantId);
@@ -121,10 +131,13 @@ export class AddEditComponent {
       elementsWithClass.forEach((element) => {
         element.classList.remove('do-the-flip');
       });
+      const flippedElem = document.querySelector(".flip-card-height");
+      flippedElem?.classList.remove("flip-card-height");
       // Add the 'do-the-flip' class to the target element
       const childElement = e.currentTarget.querySelector('.flip-card-inner');
       if (childElement) {
         childElement.classList.add('do-the-flip');
+        parentElem?.classList.add("flip-card-height");
       }
     }
     this.clicked = true;
@@ -135,6 +148,8 @@ export class AddEditComponent {
     this.clicked = false;
     this.clearInputFile();
     e.stopPropagation();
+    const flippedElem = document.querySelector(".flip-card-height");
+      flippedElem?.classList.remove("flip-card-height");
     const flipCardInnerElements = document.querySelectorAll('.flip-card-inner');
     flipCardInnerElements.forEach((e) => {
       e.classList.remove('do-the-flip');

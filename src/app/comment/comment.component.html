@@ -3,8 +3,8 @@
   <div class="comment-content">
     <div>
       <div class="username-date">
-        <div class="user-name">{{comment.firstName}} {{comment.lastName}}</div>
-        <div class="comment-time">{{comment.comment.date | date:"MMM dd, yyyy 'at' hh:mm a" }}</div>
+        <div class="user-name" [routerLink]="'/user/' + comment.comment.userId">{{comment.firstName}} {{comment.lastName}}</div>
+        <div class="comment-time">{{comment.comment.date | date:"dd.MM.yyyy HH:mm" }}</div>
       </div>
       <div class="comment-text">{{comment.comment.commentText}}</div>
     </div>

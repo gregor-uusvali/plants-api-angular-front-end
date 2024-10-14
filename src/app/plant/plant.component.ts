@@ -57,14 +57,17 @@ export class PlantComponent {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     // Subscribe to session readiness
-    this.sessionService.sessionReady$
-      .pipe(takeUntil(this.destroy$)) // Unsubscribe when component is destroyed
-      .subscribe(isReady => {
-        if (isReady) {
+    // console.log(this.sessionService.sessionReady$.subscribe(data => {
+    //   console.log(data);
+    // }))
+    // this.sessionService.sessionReady$
+    // .pipe(takeUntil(this.destroy$)) // Unsubscribe when component is destroyed
+    // .subscribe(isReady => {
+    //   if (isReady) {
           this.fetchPlant(this.id);
           this.fetchComments(this.id, this.commentAmount);
-        }
-      });
+      //   }
+      // });
   }
 
   ngOnDestroy() {

@@ -21,6 +21,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommentComponent } from './comment/comment.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { CommentComponent } from './comment/comment.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule 
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

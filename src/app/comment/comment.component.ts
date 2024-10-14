@@ -7,43 +7,42 @@ import { SessionService } from '../session.service';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.css']
 })
-export class CommentComponent implements OnInit{
-  constructor (private commentService: CommentService,
-    public sessionService: SessionService) {}
+export class CommentComponent {
   @Input() comment: any;
 
-  ngOnInit() {
-    console.log(this.comment)
-  }
+  constructor (
+    private commentService: CommentService,
+    public sessionService: SessionService) {}
 
   addLike(commendId: number, status: number) {
-    console.log('click')
-    const payload = {
-      commentId: commendId,
-      userId: this.sessionService.currentUserId,
-      status: status
-    }
-    this.commentService.addCommentLike(payload).subscribe({
-      next: (response) => {
-        console.log(response)
-        const prevStatus = this.comment.userStatus;
-        console.log(prevStatus)
-        console.log(this.comment)
-        this.comment.userStatus = response.status;
-        if (response.status === 1) {
-          this.comment.likeCount++;
-          if (prevStatus === -1) this.comment.dislikeCount--;
-        } else if (response.status === -1) {
-          this.comment.dislikeCount++;
-          if (prevStatus === 1) this.comment.likeCount--;
-        } else {
-          if (prevStatus === -1) this.comment.dislikeCount--;
-          if (prevStatus === 1) this.comment.likeCount--;
-        }
-      },
-      error: (error) => {
-        console.log(error)
+    if (this.sessionService.currentUserId !== 0) {
+      const payload = {
+        commentId: commendId,
+        userId: this.sessionService.currentUserId,
+        status: status
       }
-    })
+      this.commentService.addCommentLike(payload).subscribe({
+        next: (response) => {
+          console.log(response)
+          const prevStatus = this.comment.userStatus;
+          console.log(prevStatus)
+          console.log(this.comment)
+          this.comment.userStatus = response.status;
+          if (response.status === 1) {
+            this.comment.likeCount++;
+            if (prevStatus === -1) this.comment.dislikeCount--;
+          } else if (response.status === -1) {
+            this.comment.dislikeCount++;
+            if (prevStatus === 1) this.comment.likeCount--;
+          } else {
+            if (prevStatus === -1) this.comment.dislikeCount--;
+            if (prevStatus === 1) this.comment.likeCount--;
+          }
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
+    }
   }
 }

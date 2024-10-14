@@ -73,7 +73,6 @@ export class SessionService {
       )
       .subscribe({
         next: (data: any) => {
-          console.log(data);
           this.setSession(
             data.id,
             cookie,
@@ -88,7 +87,6 @@ export class SessionService {
           this.sessionReadySource.next(true);  // Mark session as ready
         },
         error: (error) => {
-          console.log(error);
           this.sessionReadySource.next(false);  // Mark session as ready
         },
       });

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '../alert.service';
+import { RegisterService } from './register.service';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +23,7 @@ export class RegisterComponent {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private router: Router,
+    private registerService: RegisterService
   ) { }
 
   addInfo = (str: string, type: string) => {
@@ -46,34 +48,20 @@ export class RegisterComponent {
           lastName: lastName,
           password: password
         };
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        const requestOptions = {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify(payload)
-        }
-        fetch("http://localhost:8080/api/v1/register", requestOptions)
-          .then(async (response) => {
-            if (response.ok) {
-              const data = await response.json();
-              this.addInfo("Succesfully registered", "success")
-              this.router.navigate(['/login']);
+        this.registerService.registerUser(payload).subscribe({
+          next: (response) => {
+            this.addInfo("Succesfully registered", "success")
+            this.router.navigate(['/login']);
+          },
+          error : (error) => {
+            if (error.error === "Email is already taken") {
+              // Handle the specific email taken error
+              this.addInfo(error.error, "error");
             } else {
-              const errorText = await response.text();
-              if (errorText === "Email is already taken") {
-                // Handle the specific email taken error
-                this.addInfo(errorText, "error");
-              } else {
-                // Handle other error cases
-                this.addInfo("An error occurred", "error");
-              }
+              this.addInfo("An error occurred", "error");
             }
-          })
-          .catch(error => {
-            console.log(error)
-            this.addInfo('An error occurred', 'error');
-          })
+          }
+        })
       } else {
         this.addInfo('Passwords must match', 'error');
       }

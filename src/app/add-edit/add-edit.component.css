@@ -1,6 +1,28 @@
 textarea {
     resize: none;
+    
 }
+
+/* width */
+textarea::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    cursor: default;
+  }
 
 .card:hover {
     cursor: pointer;
@@ -56,5 +78,18 @@ textarea {
     color: white;
     transform: rotateY(180deg);
     border-radius: 0.5rem;
-    height: 450px;
+    /* height: 600px;
+    width: 427px; */
+}
+
+.flip-card-height {
+    margin-left:0;
+    height: 600px;
+    width: 427px;
+}
+
+@media (max-width: 400px) {
+    .small-screen-margin-remove {
+        margin-left: 0;
+    } 
 }

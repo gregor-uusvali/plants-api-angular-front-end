@@ -37,6 +37,10 @@
   font-weight: 600;
 }
 
+.user-name:hover {
+  cursor: pointer;
+}
+
 .like-section {
   display: flex;
   bottom: 0;

@@ -13,14 +13,14 @@ export class UserProfileService {
   ) { }
 
   getUser = (id: String | null) => {
-    return this.http.get<any>(`http://localhost:8080/api/v1/user/${id}`, {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    return this.http.get<any>(`http://localhost:8080/api/v1/user/${id}`);
   }
 
   editUserPic = (formData: any) => {
     return this.http.put(`http://localhost:8080/api/v1/editUserImg/${this.sessionService.currentUserId}`, formData);
+  }
+
+  editUserName = (formData: any) => {
+    return this.http.put(`http://localhost:8080/api/v1/editUserName/${this.sessionService.currentUserId}`, formData);
   }
 }

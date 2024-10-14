@@ -31,9 +31,22 @@
 
     </div>
     <div class="ml-6 mt-6">
-        <div>
-            <h1 class="text-2xl font-bold inline">Name: </h1>
-            <h1 class="text-2xl inline">{{ firstName }} {{ lastName }}</h1>
+        <div class="flex items-center">
+            <h1 class="text-2xl font-bold inline pr-2">Name: </h1>
+            <h1 *ngIf="!editName" class="text-2xl inline">{{ firstName }} {{ lastName }}</h1>
+            <div *ngIf="editName">
+                <form [formGroup]="editNameForm" (ngSubmit)="editUserName()">
+                    <div class="flex items-center gap-2">
+                        <input class="w-40 shadow appearance-none border rounded py-1 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        formControlName="firstName" type="text">
+                        <input class="w-40 shadow appearance-none border rounded py-1 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        formControlName="lastName" type="text">
+                        <button class="edit-btn" type="submit">Save</button>
+                        <i class="material-icons close-icon hover:cursor-pointer" (click)="editClose()">close</i>
+                    </div>
+                </form>
+            </div>
+            <i *ngIf="!editName && sessionService.currentUserId.toString()==id"  (click)="editName = !editName"class="fa fa-pencil fa-lg text-black ml-4 cursor-pointer icon-btn" title="Edit name"></i>
         </div>
         <div class="mt-4">
             <h1 class="text-2xl font-bold inline">Number of plants: </h1>
@@ -41,7 +54,16 @@
         </div>
         <div class="mt-4">
             <h1 class="text-2xl font-bold inline">Joined: </h1>
-            <h1 class="text-2xl inline">{{ createdAt }}</h1>
+            <h1 class="text-2xl inline">{{ createdAt | date:"dd.MM.yyyy" }}</h1>
         </div>
+        <!-- <button class="edit-btn" (click)="openEditModal(editDialog)">Edit</button> -->
     </div>
 </div>
+
+<ng-template #editDialog>
+    <h2 mat-dialog-title>Dialog with elements</h2>
+    <mat-dialog-content>This dialog showcases the title, close, content and actions elements.</mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</ng-template>

@@ -8,6 +8,7 @@ export class PlantService {
   constructor(private http: HttpClient) {}
 
   getComments(plantId: string | null, amount: number, userId: number) {
+    console.log("jajaja")
     const headers = new HttpHeaders({
       'userId': userId.toString() // Custom header for user ID
     });

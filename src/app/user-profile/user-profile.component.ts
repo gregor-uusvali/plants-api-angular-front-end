@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { SessionService } from '../session.service';
-import { PlantType } from '../models/plant.models';
 import { AlertService } from '../alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserProfileService } from './user-profile.service';
+import { MatDialog } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile',
@@ -18,13 +19,24 @@ export class UserProfileComponent {
   createdAt: string = "";
   image: string | null = null;
 
+  editName: boolean = false;
+  editNameForm: FormGroup;
+
+
   constructor(
     public sessionService: SessionService,
     private alertService: AlertService,
     private route: ActivatedRoute,
     private router: Router,
     private userProfileService: UserProfileService,
-  ) { }
+    private dialog: MatDialog, // Inject MatDialog
+    private fb: FormBuilder
+  ) {
+    this.editNameForm = this.fb.group({
+      firstName: [''],
+      lastName: ['']
+    });
+   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -45,7 +57,6 @@ export class UserProfileComponent {
       console.log('Selected file:', selectedFile);
       const formData = new FormData();
       formData.append("image", selectedFile);
-      console.log(formData);
       this.userProfileService.editUserPic(formData).subscribe({
         next: (data: any) => {
           this.alertService.addInfo("Profile picture changed!", "success");
@@ -98,15 +109,53 @@ export class UserProfileComponent {
         this.numberOfPlants = data.nrOfPlants;
         this.firstName = data.user.firstName;
         this.lastName = data.user.lastName;
-        this.createdAt = data.user.createdAt.substring(0, 10);
+        this.createdAt = data.user.createdAt;
         this.image = data.user.image;
         if (this.id == this.sessionService.currentUserId.toString()) {
           this.sessionService.image = this.image;
         }
+        this.editNameForm.patchValue({
+          firstName: this.firstName,
+          lastName: this.lastName
+        });
       },
       error: (error) => {
         console.log(error);
       }
     })
+  }
+
+  editUserName() {
+    if (this.editNameForm.valid) {
+      const formValues = this.editNameForm.value;
+
+      if (formValues.firstName > '' && formValues.lastName > '') {
+        this.userProfileService.editUserName(formValues).subscribe({
+          next: (response: any) => {
+            this.firstName = response.firstName;
+            this.lastName = response.lastName;
+            this.editName = false;
+          },
+          error: (error) => {
+            console.log(error);
+            this.alertService.addInfo("Failed to update name", "error");
+          }
+        })
+      } else {
+        this.alertService.addInfo("No empty fields", "error");
+      }
+    }
+  }
+
+  editClose() {
+    this.editName = !this.editName;
+    this.editNameForm.patchValue({
+      firstName: this.firstName,
+      lastName: this.lastName
+    });
+  }
+
+  openEditModal(templateRef: TemplateRef<any>) {
+    this.dialog.open(templateRef);
   }
 }
