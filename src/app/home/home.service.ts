@@ -17,4 +17,12 @@ export class HomeService {
       })
     );
   }
+
+  updateWatering(currentUserId: number) {
+    return this.http.put<any>(`http://localhost:8080/api/v1/updateWatered/${currentUserId}`, null);
+  }
+
+  setWateringInterval(currentUserId: number, selectedValue: string) {
+    return this.http.put<any>(`http://localhost:8080/api/v1/updateDaysToWater/${currentUserId}`, selectedValue);
+  }
 }

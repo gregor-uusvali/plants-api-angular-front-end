@@ -32,17 +32,12 @@ export class HomeComponent {
     this.getUserWateredByCookie();
   }
 
-  ngAfterViewInit() {
-    // console.log(this.daysToWater)
-    // this.setSelected();
-  }
-
   ngOnDestroy() {
     this.destroy$.next(); // Emit to trigger takeUntil
     this.destroy$.complete(); // Complete the subject
   }
 
-  setSelected = (daysToWater: number) => {
+  setSelected = () => {
     const selectElem = document.querySelector(
       '#selectDays'
     ) as HTMLSelectElement;
@@ -50,20 +45,21 @@ export class HomeComponent {
 
     for (let i = 0; children !== undefined && i < children?.length; i++) {
       const option = children[i] as HTMLOptionElement;
-      // console.log(option.value)
-      // console.log(this.daysToWater.toString())
       if (option.value === this.daysToWater.toString()) {
         option.selected = true;
-        // console.log(children[i])
       } else {
         option.selected = false;
       }
     }
   };
 
-  convertDateStrtoDate = (lastWatered: string, daysToWater: number) => {
+  convertDateStrtoDate = (
+    lastWatered: string,
+    daysToWater: number,
+    watered: boolean
+  ) => {
     this.daysToWater = daysToWater;
-    this.setSelected(this.daysToWater);
+    this.setSelected();
     const newLastWateredDate = new Date(lastWatered);
     this.lastWatered = newLastWateredDate;
     const newNextWateredDate = new Date(lastWatered);
@@ -72,7 +68,18 @@ export class HomeComponent {
     let days =
       (newNextWateredDate.getTime() - new Date().getTime()) /
       (1000 * 60 * 60 * 24);
-    this.daysLeftToWater = days;
+
+    if (watered) {
+      let fillUp = setInterval(() => {
+        this.daysLeftToWater += 0.1;
+        if (this.daysLeftToWater > days) {
+          this.daysLeftToWater = days;
+          clearInterval(fillUp);
+        }
+      }, 10);
+    } else {
+      this.daysLeftToWater = days;
+    }
   };
 
   getUserWateredByCookie = () => {
@@ -85,7 +92,8 @@ export class HomeComponent {
           next: (response) => {
             this.convertDateStrtoDate(
               response.lastWatered,
-              response.daysToWater
+              response.daysToWater,
+              false
             );
           },
           error: (error) => {
@@ -101,31 +109,24 @@ export class HomeComponent {
 
   handleUpdateWatering = (e: any): void => {
     e.preventDefault();
-    fetch(
-      `http://localhost:8080/api/v1/updateWatered/${this.sessionService.currentUserId}`,
-      {
-        method: 'PUT',
-      }
-    ).then(async (resp) => {
-      if (resp.ok) {
-        let data = await resp.json();
-        this.convertDateStrtoDate(data, this.daysToWater);
-      }
-    });
+    this.homeService
+      .updateWatering(this.sessionService.currentUserId)
+      .subscribe({
+        next: (response) => {
+          this.convertDateStrtoDate(response, this.daysToWater, true);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   };
+
   onSelect(event: Event) {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    fetch(
-      `http://localhost:8080/api/v1/updateDaysToWater/${this.sessionService.currentUserId}`,
-      {
-        method: 'PUT',
-        body: selectedValue,
-      }
-    ).then(async (resp) => {
-      if (resp.ok) {
-        let data = await resp.json();
+    this.homeService
+      .setWateringInterval(this.sessionService.currentUserId, selectedValue)
+      .subscribe(() => {
         this.getUserWateredByCookie();
-      }
-    });
+      });
   }
 }

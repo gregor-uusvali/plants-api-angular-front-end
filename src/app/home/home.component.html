@@ -29,17 +29,17 @@
           <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-blue"></div>
         </div>
       </div>
-      <div *ngIf="(daysLeftToWater/daysToWater)*100 > 25 && (daysLeftToWater/daysToWater)*100 < 50">
+      <div *ngIf="(daysLeftToWater/daysToWater)*100 > 25 && (daysLeftToWater/daysToWater)*100 <= 50">
         <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
           <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-yellow"></div>
         </div>
       </div>
-      <div *ngIf="(daysLeftToWater/daysToWater)*100 > 0 && (daysLeftToWater/daysToWater)*100 < 25">
+      <div *ngIf="(daysLeftToWater/daysToWater)*100 > 0 && (daysLeftToWater/daysToWater)*100 <= 25">
         <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
           <div [style.width.%]="calculateProcent()" class="absolute top-0 h-4 rounded shim-red"></div>
         </div>
       </div>
-      <div *ngIf="(daysLeftToWater/daysToWater)*100 < 0">
+      <div *ngIf="(daysLeftToWater/daysToWater)*100 <= 0">
         <div class="mx-auto relative w-full sm:w-1/2 bg-gray-200 rounded">
           <div [style.width.%]="0" class="absolute top-0 h-4 rounded shim-blue"></div>
         </div>
