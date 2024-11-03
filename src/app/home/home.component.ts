@@ -75,9 +75,10 @@ export class HomeComponent {
         this.daysLeftToWater += 0.2;
         if (this.daysLeftToWater > days) {
           this.daysLeftToWater = days;
+          this.wateredDisabled = false;
           clearInterval(fillUp);
         }
-      });
+      }, 13);
     } else {
       this.daysLeftToWater = days;
     }
@@ -122,9 +123,6 @@ export class HomeComponent {
           },
         });
         this.wateredDisabled = true;
-        timer(5000).subscribe(() => {
-          this.wateredDisabled = false;
-        })
     }
   };
 
