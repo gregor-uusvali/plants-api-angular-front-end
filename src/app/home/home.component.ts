@@ -4,7 +4,7 @@ import { SessionService } from '../session.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Select, Ripple, initTE } from 'tw-elements';
 import { HomeService } from './home.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, timer } from 'rxjs';
 initTE({ Select, Ripple });
 
 @Component({
@@ -18,6 +18,7 @@ export class HomeComponent {
   nextDateToWater: Date = new Date();
   daysLeftToWater: number = 0;
   numbers: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
+  wateredDisabled = false;
 
   private destroy$ = new Subject<void>();
 
@@ -71,12 +72,12 @@ export class HomeComponent {
 
     if (watered) {
       let fillUp = setInterval(() => {
-        this.daysLeftToWater += 0.1;
+        this.daysLeftToWater += 0.2;
         if (this.daysLeftToWater > days) {
           this.daysLeftToWater = days;
           clearInterval(fillUp);
         }
-      }, 10);
+      });
     } else {
       this.daysLeftToWater = days;
     }
@@ -108,17 +109,23 @@ export class HomeComponent {
   };
 
   handleUpdateWatering = (e: any): void => {
-    e.preventDefault();
-    this.homeService
-      .updateWatering(this.sessionService.currentUserId)
-      .subscribe({
-        next: (response) => {
-          this.convertDateStrtoDate(response, this.daysToWater, true);
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+    if (!this.wateredDisabled) {
+      e.preventDefault();
+      this.homeService
+        .updateWatering(this.sessionService.currentUserId)
+        .subscribe({
+          next: (response) => {
+            this.convertDateStrtoDate(response, this.daysToWater, true);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+        this.wateredDisabled = true;
+        timer(5000).subscribe(() => {
+          this.wateredDisabled = false;
+        })
+    }
   };
 
   onSelect(event: Event) {
