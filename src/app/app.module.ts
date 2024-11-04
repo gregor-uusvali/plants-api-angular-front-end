@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommentComponent } from './comment/comment.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RandomPlantComponent } from './random-plant/random-plant.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ConfirmationModalComponent,
     UserProfileComponent,
     CommentComponent,
+    RandomPlantComponent,
   ],
   imports: [
     BrowserModule,

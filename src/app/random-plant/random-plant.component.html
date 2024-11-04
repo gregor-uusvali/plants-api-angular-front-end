@@ -1,0 +1,21 @@
+<div class="w-full mx-4">
+  <div class="text-center">
+    <h2 class="text-2xl font-bold">Plant of the day</h2>
+    <hr class="my-4" />
+  </div>
+
+  <div *ngIf="plant; else loading">
+    <div class="w-full flex gap-4">
+      <div class="w-72">
+          <img class="object-contain" [src]="plant.data.image_url" alt="plant image" />
+      </div>
+      <div class="w-3/4">
+          <h2 class="text-2xl font-bold">Plant: {{plant.data?.common_name || plant.data.scientific_name}}</h2>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <img id="loading" class="mx-auto" src="/assets/images/loading.gif" alt="loading" />
+  </ng-template>
+</div>

@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { ErrorpageComponent } from './errorpage/errorpage.component';
 import { SessionService } from './session.service';
 import { AuthGuard } from './auth-guard/auth.guard';
+import { RandomPlantComponent } from './random-plant/random-plant.component';
 
 const routes: Routes = [
 
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'user/:id', component: UserProfileComponent },
+  { path: 'rpotd', component: RandomPlantComponent }, 
 
 
   { path: 'error', component: ErrorpageComponent, data: { error: 'An unexpected error occurred' } },

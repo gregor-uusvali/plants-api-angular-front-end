@@ -6,13 +6,5 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './graphql.component.html',
   styleUrls: ['./graphql.component.css']
 })
-export class GraphqlComponent implements OnInit {
-  constructor(private http: HttpClient) {
-
-  }
-  ngOnInit(): void {
-    this.http.get("http://localhost:8080/api/v1/dailyRandom").subscribe((data) => {
-      console.log(data)
-    })
-  }
+export class GraphqlComponent {
 }
