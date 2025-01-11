@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { PlantType } from '../models/plant.models';
 import { AlertService } from '../alert.service';
@@ -12,6 +12,7 @@ import { AddEditService } from './add-edit.service';
   styleUrls: ['./add-edit.component.css'],
 })
 export class AddEditComponent {
+  previewImageUrl: string | null = null;
   selectedFile: File | '' = '';
   plants: PlantType[] = []; // Define and initialize the 'plants' property
   activePlantId: number | null = null;
@@ -104,6 +105,7 @@ export class AddEditComponent {
       const elementsWithClass = document.querySelectorAll('.do-the-flip');
       elementsWithClass.forEach((element) => {
         element.classList.remove('do-the-flip');
+        this.clearInputFile();
       });
       // Add the 'do-the-flip' class to the target element
       const childElement = e.currentTarget.querySelector('.flip-card-inner');
@@ -116,7 +118,7 @@ export class AddEditComponent {
         document.querySelectorAll('.flip-card-inner');
       flipCardInnerElements.forEach((element) => {
         element.classList.remove('do-the-flip');
-        
+        this.clearInputFile();
       });
       if (plantId !== null) {
         this.setInitialVals(plantId);
@@ -130,6 +132,7 @@ export class AddEditComponent {
       const elementsWithClass = document.querySelectorAll('.do-the-flip');
       elementsWithClass.forEach((element) => {
         element.classList.remove('do-the-flip');
+        this.clearInputFile();
       });
       const flippedElem = document.querySelector(".flip-card-height");
       flippedElem?.classList.remove("flip-card-height");
@@ -270,6 +273,7 @@ export class AddEditComponent {
       files: FileList;
     };
     if (target.files.length > 0) {
+      this.previewImageUrl = URL.createObjectURL(target.files[0]);
       this.plantForm.value.image = target.files[0];
       this.selectedFile = target.files[0];
     } else {
@@ -298,5 +302,6 @@ export class AddEditComponent {
     inputs.forEach((input) => {
       input.value = '';
     });
+    this.previewImageUrl = null;
   };
 }
