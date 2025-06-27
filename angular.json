@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "plants-api-angular-front-end:build:production"
+              "buildTarget": "plants-api-angular-front-end:build:production"
             },
             "development": {
-              "browserTarget": "plants-api-angular-front-end:build:development"
+              "buildTarget": "plants-api-angular-front-end:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "plants-api-angular-front-end:build"
+            "buildTarget": "plants-api-angular-front-end:build"
           }
         },
         "test": {
