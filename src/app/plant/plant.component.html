@@ -1,37 +1,41 @@
 <div class="w-full flex gap-4">
-    <div class="w-72">
-        <img class="object-contain" [src]="plant.image" alt="plant image" />
-    </div>
-    <div class="w-3/4">
-        <h2 class="text-2xl font-bold">Plant: {{plant !== null && plant.name}}</h2>
-        <small><em>Added on {{plant.date}}</em></small>
-        <hr class="my-4" />
-        <h3 class="text-xl font-bold">Description</h3>
-        <p>{{plant.description}}</p>
-        <hr class="my-4" />
-        <h3 class="text-xl font-bold">Instruction</h3>
-        <p>{{plant.instruction}}</p>
-    </div>
+  <div class="w-72">
+    <img class="object-contain" [src]="plant.image" alt="plant image" />
+  </div>
+  <div class="w-3/4">
+    <h2 class="text-2xl font-bold">Plant: {{plant !== null && plant.name}}</h2>
+    <small><em>Added on {{plant.date}}</em></small>
+    <hr class="my-4" />
+    <h3 class="text-xl font-bold">Description</h3>
+    <p>{{plant.description}}</p>
+    <hr class="my-4" />
+    <h3 class="text-xl font-bold">Instruction</h3>
+    <p>{{plant.instruction}}</p>
+  </div>
 </div>
 
 <div id="commentSection">
-    <div *ngIf="sessionService.sessionToken != ''" class="comment-input ml-2">
-        <form [formGroup]="commentForm" (ngSubmit)="addComment($event)"
+  @if (sessionService.sessionToken != '') {
+    <div class="comment-input ml-2">
+      <form [formGroup]="commentForm" (ngSubmit)="addComment($event)"
         class="">
         <div class="mb-2">
-            <label for="comment" class="block text-gray-700 text-sm font-bold mb-1">
+          <label for="comment" class="block text-gray-700 text-sm font-bold mb-1">
             Add comment
-            </label>
-            <textarea #commentTextarea id="addComment" type="text" formControlName="comment"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight h-24"></textarea>
+          </label>
+          <textarea #commentTextarea id="addComment" type="text" formControlName="comment"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight h-24"></textarea>
         </div>
         <button class="button" type="submit"
-            class="hover:cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add</button>
-        </form>
+        class="hover:cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add</button>
+      </form>
     </div>
+  }
 
-    <div *ngFor="let comment of comments">
-        <app-comment [comment]="comment"></app-comment>
+  @for (comment of comments; track comment) {
+    <div>
+      <app-comment [comment]="comment"></app-comment>
     </div>
+  }
 
 </div>

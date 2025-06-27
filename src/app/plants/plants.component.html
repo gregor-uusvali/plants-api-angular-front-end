@@ -20,18 +20,20 @@
           </thead>
           <tbody>
 
-            <tr *ngFor="let plant of plants"
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td scope="row" class="pl-6 py-4 font-medium text-gray-900 dark:text-white">
-                <a [routerLink]="'/plant/' + plant.id" class="hover:text-blue-500">{{plant.name}}</a>
-              </td>
-              <td class="pl-6 py-4">
-                {{plant.date}}
-              </td>
-              <td class="pl-6 py-4">
-                <img class=" h-20 mx-auto object-contain" [src]="plant.image" alt="plant image" />
-              </td>
-            </tr>
+            @for (plant of plants; track plant) {
+              <tr
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td scope="row" class="pl-6 py-4 font-medium text-gray-900 dark:text-white">
+                  <a [routerLink]="'/plant/' + plant.id" class="hover:text-blue-500">{{plant.name}}</a>
+                </td>
+                <td class="pl-6 py-4">
+                  {{plant.date}}
+                </td>
+                <td class="pl-6 py-4">
+                  <img class=" h-20 mx-auto object-contain" [src]="plant.image" alt="plant image" />
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>

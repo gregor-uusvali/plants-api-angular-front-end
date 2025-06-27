@@ -5,22 +5,24 @@
         {{title}}
       </h1>
     </div>
-    <div *ngIf="sessionService.sessionToken === ''; else loggedInBlock" class="flex text-end items-center">
-      <div class="px-4 py-6 text-lg border-r-2 border-gray-200 mr-1"></div>
-      <a routerLink="login">
-        <div class="px-4 py-3 text-lg rounded hover:bg-gray-100">Login</div>
-      </a>
-    </div>
-    <ng-template #loggedInBlock>
+    @if (sessionService.sessionToken === '') {
+      <div class="flex text-end items-center">
+        <div class="px-4 py-6 text-lg border-r-2 border-gray-200 mr-1"></div>
+        <a routerLink="login">
+          <div class="px-4 py-3 text-lg rounded hover:bg-gray-100">Login</div>
+        </a>
+      </div>
+    } @else {
       <div class="flex text-end items-center">
         <a [href]="'/user/' + sessionService.currentUserId">
           <div class="px-4 py-2 text-lg rounded hover:bg-gray-100 flex items-center">
-            <div *ngIf="sessionService.image==null; else hasOwnImg">
-              <img id="scale-125 profile_pic" class="rounded-full w-10 h-10" src="/assets/images/default_profile.jpg" alt="profile image" />
-            </div>
-            <ng-template #hasOwnImg>
+            @if (sessionService.image==null) {
+              <div>
+                <img id="scale-125 profile_pic" class="rounded-full w-10 h-10" src="/assets/images/default_profile.jpg" alt="profile image" />
+              </div>
+            } @else {
               <img id="scale-125 profile_pic" class="rounded-full w-10 h-10 object-cover" [src]="sessionService.image" alt="profile image" />
-            </ng-template>
+            }
             <p class="ml-2">{{ sessionService.firstName }} {{ sessionService.lastName }}</p>
           </div>
         </a>
@@ -28,9 +30,8 @@
         <a href="#" (click)="logOut()">
           <div class="px-4 py-3 text-lg rounded hover:bg-gray-100">Logout</div>
         </a>
-
       </div>
-    </ng-template>
+    }
   </div>
   <hr class="mb-4" />
   <div class="flex">
@@ -40,18 +41,20 @@
           <a routerLink="/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Home</a>
           <a routerLink="/plants" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Plants</a>
           <a routerLink="/family" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Family</a>
-          <div *ngIf="sessionService.sessionToken !== ''">
-            <a routerLink="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Add/Edit Plants</a>
-            <a routerLink="/rpotd" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Palnt of the day</a>
-            <a routerLink="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">GraphQL</a>
-          </div>
+          @if (sessionService.sessionToken !== '') {
+            <div>
+              <a routerLink="/add-edit" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Add/Edit Plants</a>
+              <a routerLink="/rpotd" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Palnt of the day</a>
+              <a routerLink="/graphql" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">GraphQL</a>
+            </div>
+          }
 
         </div>
       </nav>
     </div>
     <div class='w-11/12'>
       <app-alert [message]="alertService.alertMessage" [type]="alertService.alertType"
-        [class]="alertService.alertClass"></app-alert>
+      [class]="alertService.alertClass"></app-alert>
       <div class="mx-4 w-90">
         <router-outlet></router-outlet>
       </div>

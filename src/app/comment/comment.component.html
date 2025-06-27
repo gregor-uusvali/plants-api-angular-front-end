@@ -1,24 +1,34 @@
-<div *ngIf="comment" class="comment-container">
-  <img class="user-pic" [src]="comment.image ? comment.image : '/assets/images/default_profile.jpg'">
-  <div class="comment-content">
-    <div>
-      <div class="username-date">
-        <div class="user-name" [routerLink]="'/user/' + comment.comment.userId">{{comment.firstName}} {{comment.lastName}}</div>
-        <div class="comment-time">{{comment.comment.date | date:"dd.MM.yyyy HH:mm" }}</div>
+@if (comment) {
+  <div class="comment-container">
+    <img class="user-pic" [src]="comment.image ? comment.image : '/assets/images/default_profile.jpg'">
+    <div class="comment-content">
+      <div>
+        <div class="username-date">
+          <div class="user-name" [routerLink]="'/user/' + comment.comment.userId">{{comment.firstName}} {{comment.lastName}}</div>
+          <div class="comment-time">{{comment.comment.date | date:"dd.MM.yyyy HH:mm" }}</div>
+        </div>
+        <div class="comment-text">{{comment.comment.commentText}}</div>
       </div>
-      <div class="comment-text">{{comment.comment.commentText}}</div>
-    </div>
-    <div class="like-section">
-      <div class="like-section-btn">
-        <i *ngIf="comment.userStatus === 1" class="material-icons like-icon" (click)="addLike(comment.comment.id, 0)">thumb_up</i>
-        <i *ngIf="comment.userStatus === 0 || comment.userStatus === -1" class="material-icons like-icon" (click)="addLike(comment.comment.id, 1)">thumb_up_off_alt</i>
-        <div class="like-count">{{comment.likeCount}}</div>
-      </div>
-      <div class="like-section-btn">
-        <i *ngIf="comment.userStatus === -1" (click)="addLike(comment.comment.id, 0)" class="material-icons like-icon">thumb_down</i>
-        <i *ngIf="comment.userStatus === 0 || comment.userStatus === 1" class="material-icons like-icon" (click)="addLike(comment.comment.id, -1)">thumb_down_off_alt</i>
-        <div class="dislike-count">{{comment.dislikeCount}}</div>
+      <div class="like-section">
+        <div class="like-section-btn">
+          @if (comment.userStatus === 1) {
+            <i class="material-icons like-icon" (click)="addLike(comment.comment.id, 0)">thumb_up</i>
+          }
+          @if (comment.userStatus === 0 || comment.userStatus === -1) {
+            <i class="material-icons like-icon" (click)="addLike(comment.comment.id, 1)">thumb_up_off_alt</i>
+          }
+          <div class="like-count">{{comment.likeCount}}</div>
+        </div>
+        <div class="like-section-btn">
+          @if (comment.userStatus === -1) {
+            <i (click)="addLike(comment.comment.id, 0)" class="material-icons like-icon">thumb_down</i>
+          }
+          @if (comment.userStatus === 0 || comment.userStatus === 1) {
+            <i class="material-icons like-icon" (click)="addLike(comment.comment.id, -1)">thumb_down_off_alt</i>
+          }
+          <div class="dislike-count">{{comment.dislikeCount}}</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+}
