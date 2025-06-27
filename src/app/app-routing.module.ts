@@ -1,21 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { PlantsComponent } from './plants/plants.component';
-import { FamilyComponent } from './family/family.component';
 import { AddEditComponent } from './add-edit/add-edit.component';
-import { ManagePlantsComponent } from './manage-plants/manage-plants.component';
-import { GraphqlComponent } from './graphql/graphql.component';
-import { PlantComponent } from './plant/plant.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { UserProfileComponent } from './user-profile/user-profile.component'
-import { AppModule } from './app.module';
-import { AppComponent } from './app.component';
-import { ErrorpageComponent } from './errorpage/errorpage.component';
-import { SessionService } from './session.service';
 import { AuthGuard } from './auth-guard/auth.guard';
+import { ErrorpageComponent } from './errorpage/errorpage.component';
+import { FamilyComponent } from './family/family.component';
+import { GraphqlComponent } from './graphql/graphql.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { ManagePlantsComponent } from './manage-plants/manage-plants.component';
+import { PlantComponent } from './plant/plant.component';
+import { PlantsComponent } from './plants/plants.component';
 import { RandomPlantComponent } from './random-plant/random-plant.component';
+import { RegisterComponent } from './register/register.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
 
