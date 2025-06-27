@@ -8,9 +8,10 @@ import { Subject, takeUntil, timer } from 'rxjs';
 initTE({ Select, Ripple });
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
+    standalone: false
 })
 export class HomeComponent {
   lastWatered: Date = new Date();

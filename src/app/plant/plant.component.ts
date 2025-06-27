@@ -16,9 +16,10 @@ export interface CommentWithUserDTO {
   userStatus: number;
 }
 @Component({
-  selector: 'app-plant',
-  templateUrl: './plant.component.html',
-  styleUrls: ['./plant.component.css'],
+    selector: 'app-plant',
+    templateUrl: './plant.component.html',
+    styleUrls: ['./plant.component.css'],
+    standalone: false
 })
 export class PlantComponent {
   @ViewChild('commentTextarea') commentTextarea!: ElementRef;

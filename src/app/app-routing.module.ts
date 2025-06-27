@@ -14,9 +14,8 @@ import { RandomPlantComponent } from './random-plant/random-plant.component';
 import { RegisterComponent } from './register/register.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
-const routes: Routes = [
 
-
+export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'plants', component: PlantsComponent },
   { path: 'family', component: FamilyComponent },
@@ -28,15 +27,12 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'user/:id', component: UserProfileComponent },
   { path: 'rpotd', component: RandomPlantComponent }, 
-
-
   { path: 'error', component: ErrorpageComponent, data: { error: 'An unexpected error occurred' } },
   { path: '**', redirectTo: 'error' },
-
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
+// @NgModule({
+//   imports: [RouterModule.forRoot(routes)],
+//   exports: [RouterModule]
+// })
 export class AppRoutingModule { }

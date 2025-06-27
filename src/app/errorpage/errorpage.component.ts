@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-errorpage',
-  templateUrl: './errorpage.component.html',
-  styleUrls: ['./errorpage.component.css']
+    selector: 'app-errorpage',
+    templateUrl: './errorpage.component.html',
+    styleUrls: ['./errorpage.component.css'],
+    standalone: false
 })
 export class ErrorpageComponent {
   error: any;

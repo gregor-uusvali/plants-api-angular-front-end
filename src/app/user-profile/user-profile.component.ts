@@ -1,15 +1,16 @@
-import { Component, TemplateRef } from '@angular/core';
-import { SessionService } from '../session.service';
-import { AlertService } from '../alert.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserProfileService } from './user-profile.service';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, inject, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from '../alert.service';
+import { SessionService } from '../session.service';
+import { UserProfileService } from './user-profile.service';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+    selector: 'app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.css'],
+    standalone: false
 })
 export class UserProfileComponent {
   id: string | null = null;
@@ -22,15 +23,20 @@ export class UserProfileComponent {
   editName: boolean = false;
   editNameForm: FormGroup;
 
+  route = inject(ActivatedRoute);
+  router = inject(Router);
+  fb = inject(FormBuilder);
+
+
 
   constructor(
     public sessionService: SessionService,
     private alertService: AlertService,
-    private route: ActivatedRoute,
-    private router: Router,
+    // private route: ActivatedRoute,
+    // private router: Router,
     private userProfileService: UserProfileService,
     private dialog: MatDialog, // Inject MatDialog
-    private fb: FormBuilder
+    // private fb: FormBuilder
   ) {
     this.editNameForm = this.fb.group({
       firstName: [''],

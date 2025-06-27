@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { PlantType } from '../models/plant.models';
 import { AlertService } from '../alert.service';
@@ -10,8 +10,12 @@ import { AddEditService } from './add-edit.service';
   selector: 'app-add-edit',
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.css'],
+  standalone: false,
 })
 export class AddEditComponent {
+  formBuilder = inject(FormBuilder);
+  cookieService = inject(CookieService);
+
   previewImageUrl: string | null = null;
   selectedFile: File | '' = '';
   plants: PlantType[] = []; // Define and initialize the 'plants' property
@@ -32,11 +36,9 @@ export class AddEditComponent {
   });
 
   constructor(
-    private formBuilder: FormBuilder,
     private alertService: AlertService,
     public sessionService: SessionService,
-    public cookieService: CookieService,
-    private addEditService: AddEditService,
+    private addEditService: AddEditService
   ) {}
 
   ngOnInit() {
@@ -62,7 +64,7 @@ export class AddEditComponent {
       this.alertService.setAlert(str, type, 'hidden');
     }, 4000);
   };
-  
+
   setInitialVals = (plantId: number | null) => {
     if (!this.clicked) {
       for (let i = 0; i < this.plants.length; i++) {
@@ -82,9 +84,9 @@ export class AddEditComponent {
   doTheFlip(e: any, plantId: number | null = null): void {
     let parentElem: any;
     if (plantId) {
-      parentElem = document.getElementById("plant-" + plantId);
+      parentElem = document.getElementById('plant-' + plantId);
     } else {
-      parentElem = document.getElementById("addCard");
+      parentElem = document.getElementById('addCard');
     }
     if (this.activePlantId !== plantId) {
       this.clicked = false;
@@ -100,8 +102,8 @@ export class AddEditComponent {
         this.plantInstruction = '';
         this.selectedFile = '';
       }
-      const flippedElem = document.querySelector(".flip-card-height");
-      flippedElem?.classList.remove("flip-card-height");
+      const flippedElem = document.querySelector('.flip-card-height');
+      flippedElem?.classList.remove('flip-card-height');
       const elementsWithClass = document.querySelectorAll('.do-the-flip');
       elementsWithClass.forEach((element) => {
         element.classList.remove('do-the-flip');
@@ -110,7 +112,7 @@ export class AddEditComponent {
       // Add the 'do-the-flip' class to the target element
       const childElement = e.currentTarget.querySelector('.flip-card-inner');
       if (childElement) {
-        parentElem?.classList.add("flip-card-height");
+        parentElem?.classList.add('flip-card-height');
         childElement.classList.add('do-the-flip');
       }
     } else {
@@ -134,13 +136,13 @@ export class AddEditComponent {
         element.classList.remove('do-the-flip');
         this.clearInputFile();
       });
-      const flippedElem = document.querySelector(".flip-card-height");
-      flippedElem?.classList.remove("flip-card-height");
+      const flippedElem = document.querySelector('.flip-card-height');
+      flippedElem?.classList.remove('flip-card-height');
       // Add the 'do-the-flip' class to the target element
       const childElement = e.currentTarget.querySelector('.flip-card-inner');
       if (childElement) {
         childElement.classList.add('do-the-flip');
-        parentElem?.classList.add("flip-card-height");
+        parentElem?.classList.add('flip-card-height');
       }
     }
     this.clicked = true;
@@ -151,8 +153,8 @@ export class AddEditComponent {
     this.clicked = false;
     this.clearInputFile();
     e.stopPropagation();
-    const flippedElem = document.querySelector(".flip-card-height");
-      flippedElem?.classList.remove("flip-card-height");
+    const flippedElem = document.querySelector('.flip-card-height');
+    flippedElem?.classList.remove('flip-card-height');
     const flipCardInnerElements = document.querySelectorAll('.flip-card-inner');
     flipCardInnerElements.forEach((e) => {
       e.classList.remove('do-the-flip');
@@ -161,7 +163,7 @@ export class AddEditComponent {
 
   getPlants = () => {
     const cookie = this.cookieService.get('session_token');
-    this.addEditService.getPlants(cookie).subscribe(data => {
+    this.addEditService.getPlants(cookie).subscribe((data) => {
       this.plants = data;
     });
   };
@@ -172,7 +174,12 @@ export class AddEditComponent {
     const description = this.plantForm.value.description;
     const instruction = this.plantForm.value.instruction;
     const image = this.plantForm.value.image;
-    if (name !== '' && description !== '' && instruction !== '' && image !== null) {
+    if (
+      name !== '' &&
+      description !== '' &&
+      instruction !== '' &&
+      image !== null
+    ) {
       const currentDate = new Date();
       const formData = new FormData();
       if (name && description && instruction) {
@@ -201,7 +208,7 @@ export class AddEditComponent {
           },
           error: (error) => {
             this.addInfo(`Error: ${error.message}`, 'error');
-          }
+          },
         });
       }
     } else {
@@ -226,13 +233,17 @@ export class AddEditComponent {
       },
       error: () => {
         this.addInfo('An error has occured', 'error');
-      }
-    })
+      },
+    });
   };
 
   handleUpdate = (e: any) => {
     e.preventDefault();
-    if (this.plantName !== '' && this.plantDescription !== '' && this.plantInstruction !== '') {
+    if (
+      this.plantName !== '' &&
+      this.plantDescription !== '' &&
+      this.plantInstruction !== ''
+    ) {
       const formData = new FormData();
       const updatedName = this.plantName;
       const updatedDescription = this.plantDescription;
@@ -261,7 +272,7 @@ export class AddEditComponent {
         },
         error: () => {
           this.addInfo('An error has occured', 'error');
-        }
+        },
       });
     } else {
       this.addInfo('No empty fields', 'error');
@@ -296,9 +307,10 @@ export class AddEditComponent {
     const target = e.target as HTMLInputElement;
     this.plantInstruction = target.value;
   };
-  
+
   clearInputFile = () => {
-    const inputs = document.querySelectorAll<HTMLInputElement>('.inputFileClass');
+    const inputs =
+      document.querySelectorAll<HTMLInputElement>('.inputFileClass');
     inputs.forEach((input) => {
       input.value = '';
     });

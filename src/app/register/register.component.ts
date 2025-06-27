@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '../alert.service';
 import { RegisterService } from './register.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css'],
+    standalone: false
 })
 export class RegisterComponent {
+
+  formBuilder = inject(FormBuilder);
+  router = inject(Router);
 
   registerForm = this.formBuilder.group({
     email: '',
@@ -19,10 +23,12 @@ export class RegisterComponent {
     confirmPassword: ''
   });
 
+  
+
   constructor(
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private router: Router,
+    // private router: Router,
     private registerService: RegisterService
   ) { }
 

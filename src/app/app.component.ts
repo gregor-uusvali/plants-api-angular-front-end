@@ -1,24 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AlertService } from './alert.service';
 import { SessionService } from './session.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { AlertComponent } from './alert/alert.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
+  })
 export class AppComponent {
   title = 'Water a palnt 🪴';
+  cookieService = inject(CookieService);
+  router = inject(Router);	
+  alertService = inject(AlertService);
+  sessionService = inject(SessionService);
 
-  constructor(
-    public alertService: AlertService,
-    public sessionService: SessionService,
-    public cookieService: CookieService,
-    public router: Router
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     this.alertService.setAlert('', '', "hidden");

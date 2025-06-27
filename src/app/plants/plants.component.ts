@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { PlantType } from '../models/plant.models';
 
 @Component({
-  selector: 'app-plants',
-  templateUrl: './plants.component.html',
-  styleUrls: ['./plants.component.css']
+    selector: 'app-plants',
+    templateUrl: './plants.component.html',
+    styleUrls: ['./plants.component.css'],
+    standalone: false
 })
 export class PlantsComponent {
   plants: PlantType[] = []

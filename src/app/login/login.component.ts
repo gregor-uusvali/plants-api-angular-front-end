@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -8,11 +8,18 @@ import { SessionService } from '../session.service';
 
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: false
 })
 export class LoginComponent {
+
+  formBuilder = inject(FormBuilder);
+  router = inject(Router);
+  // alertService = inject(AlertService);
+  cookieService = inject(CookieService);
+  // sessionService = inject(SessionService);
 
   loginForm = this.formBuilder.group({
     email: '',
@@ -20,10 +27,10 @@ export class LoginComponent {
   });
 
   constructor(
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private cookieService: CookieService,
-    private router: Router,
+    // private cookieService: CookieService,
+    // private router: Router,
     private sessionService: SessionService
   ) {}
 
